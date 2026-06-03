@@ -1,0 +1,2 @@
+# Large demo videos are managed directly on the server (excluded from rsync deploy)
+*.mp4
