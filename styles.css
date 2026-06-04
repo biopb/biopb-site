@@ -144,6 +144,89 @@ a:hover { text-decoration: underline; }
 .shot__cap { font-size: 0.85rem; }
 .shot img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); display: block; }
 
+/* ===== Install guide ===== */
+.guide { padding: 56px 0 84px; }
+.guide__head { max-width: 720px; margin: 0 0 30px; }
+.guide__title {
+  font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;
+  letter-spacing: -0.025em; margin: 0 0 16px; font-weight: 800;
+}
+.guide__sub { font-size: 1.12rem; color: var(--ink-soft); margin: 0; }
+
+.prereq {
+  display: flex; gap: 13px; align-items: flex-start;
+  background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 16px 20px;
+  font-size: 0.95rem; color: var(--ink-soft); margin: 0 0 40px; max-width: 760px;
+}
+.prereq__icon { font-size: 1.25rem; line-height: 1.4; flex: none; }
+.prereq strong { color: var(--ink); }
+.prereq code {
+  font-family: var(--mono); font-size: 0.88em; background: rgba(37, 99, 214, 0.08);
+  color: var(--accent-dark); padding: 1px 6px; border-radius: 5px;
+}
+
+/* the wizard */
+.step__q { font-weight: 750; font-size: 1.2rem; letter-spacing: -0.01em; margin: 0 0 16px; }
+.choices {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.choice {
+  text-align: left; background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 20px 22px; cursor: pointer;
+  font: inherit; color: var(--ink); display: flex; flex-direction: column; gap: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.06s;
+}
+.choice:hover { border-color: var(--accent); box-shadow: 0 12px 30px -20px rgba(37, 99, 214, 0.55); }
+.choice:active { transform: translateY(1px); }
+.choice.is-active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.choice__icon { font-size: 1.7rem; line-height: 1; }
+.choice__title { font-weight: 700; font-size: 1.06rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.choice__desc { color: var(--ink-soft); font-size: 0.92rem; }
+.pill {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--accent); background: rgba(37, 99, 214, 0.1); padding: 3px 8px; border-radius: 999px;
+}
+.pill--soft { color: var(--ink-soft); background: var(--bg-soft); border: 1px solid var(--line); }
+
+/* revealed panels */
+.panel { margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--line); max-width: 760px; }
+.panel__h { font-size: 1.4rem; font-weight: 780; letter-spacing: -0.015em; margin: 0 0 12px; }
+.panel p { color: var(--ink-soft); margin: 0 0 14px; }
+.panel .term { margin: 18px 0; max-width: 100%; }
+
+.steps { list-style: none; counter-reset: s; padding: 0; margin: 22px 0 0; }
+.steps > li { position: relative; padding-left: 48px; margin-bottom: 26px; }
+.steps > li::before {
+  counter-increment: s; content: counter(s);
+  position: absolute; left: 0; top: -2px; width: 32px; height: 32px;
+  border-radius: 50%; background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.steps h4 { margin: 4px 0 6px; font-size: 1.06rem; font-weight: 700; }
+.steps p { margin: 0 0 8px; }
+.steps .term { margin: 12px 0 0; }
+
+.note {
+  font-size: 0.9rem; color: var(--ink-soft); background: var(--bg-soft);
+  border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+  padding: 12px 16px; margin: 16px 0 0;
+}
+.note strong { color: var(--ink); }
+
+.startover {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 6px;
+  background: none; border: 0; font: inherit; font-size: 0.92rem;
+  color: var(--accent); cursor: pointer; padding: 6px 0;
+}
+.startover:hover { text-decoration: underline; }
+
+.help { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line); max-width: 760px; }
+.help h3 { font-size: 1.15rem; font-weight: 750; margin: 0 0 10px; }
+.help p { color: var(--ink-soft); margin: 0; }
+
 /* ===== Footer ===== */
 .footer { background: var(--bg-soft); border-top: 1px solid var(--line); padding: 52px 0 28px; }
 .footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
