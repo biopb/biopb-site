@@ -43,10 +43,10 @@
         <div class="prereq">
           <span class="prereq__icon" aria-hidden="true">🧰</span>
           <div>
-            <strong>Before you start:</strong> biopb leans on two tiny tools, <code>git</code> and
-            <code>tar</code>. On Mac and Linux they're almost always already there — and if one's
-            missing, the installer stops and tells you exactly what to grab. Everything else biopb
-            needs, it brings along itself.
+            <strong>Before you start:</strong> biopb leans on one tiny tool, <code>tar</code>.
+            On Mac and Linux it's almost always already there — and if it's missing, the installer
+            stops and tells you exactly what to grab. Everything else biopb needs, it brings along
+            itself.
           </div>
         </div>
 
@@ -102,29 +102,11 @@
               </div>
             </li>
             <li>
-              <h4>Start biopb — and leave it running</h4>
-              <p>In a new Terminal, start the biopb server:</p>
-              <div class="term">
-                <div class="term__bar">
-                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                  <span class="term__title">Terminal — Mac / Linux</span>
-                </div>
-                <div class="term__body">
-                  <code><span class="term__prompt">$</span> biopb-mcp</code>
-                  <button class="term__copy" type="button" data-cmd="biopb-mcp">Copy</button>
-                </div>
-              </div>
-              <p style="margin-top:10px;">
-                <strong>Keep this window open</strong> — biopb runs here as long as your agent
-                needs it. To use it, just open a <em>new</em> Terminal window (or your agent app)
-                alongside it. Done for the day? Press <code>Ctrl + C</code> here to stop it.
-              </p>
-            </li>
-            <li>
               <h4>Open your agent and ask ✨</h4>
               <p style="margin:0;">
-                With biopb running, open your AI agent — Claude Code, OpenCode, or Cursor — and
-                just ask it to open an image or run an analysis. That's the whole workflow.
+                That's it — no server to start. Open your AI agent — Claude Code, OpenCode, or
+                Cursor — and just ask it to open an image or run an analysis. Your agent launches
+                biopb on its own whenever it needs it. That's the whole workflow.
               </p>
             </li>
           </ol>
@@ -190,8 +172,8 @@
               <li>
                 <h4>Grab the basics</h4>
                 <p>
-                  A fresh Ubuntu doesn't ship with <code>git</code> or <code>curl</code>, so install
-                  them first (it'll ask for the password you just created — the typing stays hidden):
+                  A fresh Ubuntu doesn't ship with <code>curl</code>, so install it first (it'll
+                  ask for the password you just created — the typing stays hidden):
                 </p>
                 <div class="term">
                   <div class="term__bar">
@@ -199,8 +181,8 @@
                     <span class="term__title">Ubuntu (WSL)</span>
                   </div>
                   <div class="term__body">
-                    <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y git curl</code>
-                    <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y git curl">Copy</button>
+                    <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y curl</code>
+                    <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y curl">Copy</button>
                   </div>
                 </div>
               </li>
@@ -224,27 +206,11 @@
                 </p>
               </li>
               <li>
-                <h4>Start biopb — and leave it running</h4>
-                <p>Open a new WSL window and start the biopb server:</p>
-                <div class="term">
-                  <div class="term__bar">
-                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">Ubuntu (WSL)</span>
-                  </div>
-                  <div class="term__body">
-                    <code><span class="term__prompt">$</span> biopb-mcp</code>
-                    <button class="term__copy" type="button" data-cmd="biopb-mcp">Copy</button>
-                  </div>
-                </div>
-                <p style="margin-top:10px;">
-                  <strong>Keep this window open</strong> while you work — biopb runs here. Open
-                  your agent in a separate window alongside it. Press <code>Ctrl + C</code> to stop
-                  it when you're done.
-                </p>
-              </li>
-              <li>
                 <h4>Open your agent and ask ✨</h4>
-                <p style="margin:0;">Open your AI agent and ask it to load an image or run an analysis.</p>
+                <p style="margin:0;">
+                  No server to start — open your AI agent and ask it to load an image or run an
+                  analysis. Your agent launches biopb on its own whenever it needs it.
+                </p>
               </li>
             </ol>
             <div class="note">
@@ -284,14 +250,6 @@
             <div class="panel" id="panel-native-have" data-group="agent">
               <ol class="steps">
                 <li>
-                  <h4>Make sure Git is installed</h4>
-                  <p>
-                    The installer needs <code>git</code>. If you're not sure you have it, grab
-                    <a href="https://git-scm.com/download/win">Git for Windows</a> and run it
-                    (the defaults are fine). <code>tar</code> already ships with Windows 10 and 11.
-                  </p>
-                </li>
-                <li>
                   <h4>Run the installer</h4>
                   <p>
                     Open <strong>PowerShell</strong> (the normal one — no administrator needed),
@@ -313,26 +271,11 @@
                   </p>
                 </li>
                 <li>
-                  <h4>Start biopb — and leave it running</h4>
-                  <p>Open a fresh PowerShell window and start the biopb server:</p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> biopb-mcp</code>
-                      <button class="term__copy" type="button" data-cmd="biopb-mcp">Copy</button>
-                    </div>
-                  </div>
-                  <p style="margin-top:10px;">
-                    <strong>Leave this window open</strong> while you work — biopb runs here. Press
-                    <code>Ctrl + C</code> to stop it when you're done.
-                  </p>
-                </li>
-                <li>
                   <h4>Open your agent and ask ✨</h4>
-                  <p style="margin:0;">With biopb running, open your agent and ask it to load an image or run an analysis.</p>
+                  <p style="margin:0;">
+                    No server to start — open your agent and ask it to load an image or run an
+                    analysis. Your agent launches biopb on its own whenever it needs it.
+                  </p>
                 </li>
               </ol>
             </div>
@@ -353,14 +296,6 @@
                     and it comes with a few free models to get you started. (Already have an
                     Anthropic or OpenAI key? You can paste that in instead.)
                   </div>
-                </li>
-                <li>
-                  <h4>Make sure Git is installed</h4>
-                  <p>
-                    The installer needs <code>git</code>. If you're not sure you have it, grab
-                    <a href="https://git-scm.com/download/win">Git for Windows</a> and run it
-                    (the defaults are fine). <code>tar</code> already ships with Windows 10 and 11.
-                  </p>
                 </li>
                 <li>
                   <h4>Run the installer</h4>
@@ -384,26 +319,11 @@
                   </p>
                 </li>
                 <li>
-                  <h4>Start biopb — and leave it running</h4>
-                  <p>Open a fresh PowerShell window and start the biopb server:</p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> biopb-mcp</code>
-                      <button class="term__copy" type="button" data-cmd="biopb-mcp">Copy</button>
-                    </div>
-                  </div>
-                  <p style="margin-top:10px;">
-                    <strong>Leave this window open</strong> while you work — biopb runs here. Press
-                    <code>Ctrl + C</code> to stop it when you're done.
-                  </p>
-                </li>
-                <li>
                   <h4>Open OpenCode and ask ✨</h4>
-                  <p style="margin:0;">With biopb running, open OpenCode and ask it to load an image or run an analysis.</p>
+                  <p style="margin:0;">
+                    No server to start — open OpenCode and ask it to load an image or run an
+                    analysis. OpenCode launches biopb on its own whenever it needs it.
+                  </p>
                 </li>
               </ol>
             </div>
