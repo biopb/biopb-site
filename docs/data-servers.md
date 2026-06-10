@@ -61,21 +61,6 @@ For multiple data sources, metadata overrides, live directory monitoring, and HP
 (Singularity/SLURM) deployment, configure the server with a TOML file and see the
 [tensor-server documentation on GitHub](https://github.com/biopb/biopb/tree/main/biopb-tensor-server).
 
-```toml
-[server]
-host = "127.0.0.1"
-port = 8815
-
-[[sources]]
-url = "/data"            # directories are scanned recursively for data
-
-[[sources]]
-source_id  = "my-zarr"   # a specific source, with metadata overrides
-type       = "zarr"
-url        = "/experiment.zarr"
-dim_labels = ["z", "y", "x"]
-```
-
 ## Security
 
 !!! warning "Transport is unencrypted by default"
@@ -90,4 +75,4 @@ dim_labels = ["z", "y", "x"]
 - A **dev/bypass mode** disables token enforcement for local development — don't use it on a
   shared machine.
 
-See [Configuration](configuration.md) for the full list of environment variables.
+See [Configuration](configuration.md) for more details on how to configure your data server.

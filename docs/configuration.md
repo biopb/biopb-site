@@ -53,8 +53,8 @@ Paths below are for Linux and macOS.
   misbehaves.
 - **Data server logs:** `~/.local/share/biopb/logs/` — when a local data server fails to start,
   the full server output is written here. Check it for the underlying error.
-- **On-disk cache:** each user gets a private cache (e.g. `/tmp/biopb-cache-<uid>`) with its
-  own lock, so multiple users on the same node don't collide.
+- **On-disk cache:** Data servers lean heavily on caching to achieve fast zero-copy data transfer.
+  But you can delete these files if you no longer need the server or want to start from scratch.
 
 ## What's inside the config files
 
@@ -91,7 +91,7 @@ only need to include the keys you want to change. The entries most users touch:
 | `mcp.dask.cache_budget` | `"1G"` | Cluster-wide chunk-cache budget, split across workers. |
 | `mcp.transport.display_mode` | `"auto"` | `"auto"`, `"visible"`, or `"headless"` (run without opening a napari window). |
 
-For example, to register a Cellpose algorithm server:
+For example, to register an algorithm server:
 
 ```json
 {
