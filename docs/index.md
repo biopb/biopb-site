@@ -1,0 +1,53 @@
+# biopb documentation
+
+**Open bioimage analysis, driven by your agent.**
+
+biopb lets you analyze microscopy images by *talking to an AI agent* — Claude Code,
+OpenCode, Cursor, or Hermes. You ask the agent to open an image or run an analysis, and it
+drives biopb for you: loading data, running segmentation and other algorithms, and showing
+results in a live [napari](https://napari.org) viewer you can watch and tweak.
+
+There is **no server to start by hand**. Install once, then open your agent and ask.
+
+[Get started](getting-started.md){ .md-button .md-button--primary }
+[How it fits together](concepts.md){ .md-button }
+
+---
+
+## What you can do
+
+- **Open and browse large microscopy data** — OME-Zarr, OME-TIFF, HDF5, CZI, LIF, ND2, and
+  more — even datasets far larger than your computer's memory.
+- **Run trained models** for segmentation and restoration (Cellpose, UNiFMIR, and
+  others) without writing boilerplate.
+- **Do open-ended analysis in plain language.** Filtering, measurements, region properties,
+  spatial statistics — your agent writes the code and you watch results appear in napari.
+- **Stay in control.** Image results land in the viewer; numbers and tables go to the chat;
+  you decide what to save.
+
+## Components
+
+You only ever interact with your **agent** and the **napari** window. Everything else runs
+quietly underneath:
+
+| Piece | What it does for you |
+|-------|----------------------|
+| **Your AI agent** | The thing you talk to. It launches biopb and writes the analysis code. |
+| **Napari + Data Browser** | The viewer where images and results appear. Your agent drives it; you can edit by hand. |
+| **Data server** | Serves your image data, lazily, so huge files just work. |
+| **Algorithm servers** | Run the dedicated algorithms — usually on a GPU machine. |
+
+If you are just getting started, you don't need to think about the last two — the default
+install wires up a local data server automatically. See
+[How biopb fits together](concepts.md) when you want the full picture.
+
+## Where to next
+
+- **[Getting started](getting-started.md)** — install and run your first analysis.
+- **[Working with your agent](working-with-agents.md)** — what to ask and how the workflow feels.
+- **[Working with napari](using-napari.md)** — What do you do in the napari window.
+- **[Troubleshooting](troubleshooting.md)** — fixes for the common snags.
+
+!!! note "These docs are for end users"
+    Looking for protocol internals, contributor guides, or the gRPC/Arrow Flight specs?
+    Those live in the source repositories on [GitHub](https://github.com/biopb).

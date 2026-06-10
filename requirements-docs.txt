@@ -1,0 +1,2 @@
+# Documentation toolchain for biopb.org/docs (built in CI, see .github/workflows/deploy.yml)
+mkdocs-material==9.5.49

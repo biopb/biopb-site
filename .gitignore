@@ -1,2 +1,6 @@
 # Large demo videos are managed directly on the server (excluded from rsync deploy)
 *.mp4
+
+# MkDocs build output (built in CI, deployed to /docs) and local docs virtualenv
+site/
+.venv-docs/
