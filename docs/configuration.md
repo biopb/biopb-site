@@ -72,8 +72,8 @@ url = "/data"            # directories are scanned recursively for data
 ```
 
 You can declare multiple sources, override metadata per source, and enable live directory
-monitoring. See [Data (tensor) servers](data-servers.md#deploying-your-own) for the full
-reference.
+monitoring. See [github source](https://github.com/biopb/biopb/tree/main/biopb-tensor-server) 
+for the full reference.
 
 ### Client / MCP — `config.json`
 
