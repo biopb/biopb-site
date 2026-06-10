@@ -36,12 +36,76 @@ the server that's already running rather than starting a new one.
 
 ## File locations
 
-- **Logs:** `~/.local/share/biopb/logs/` — when a local server fails to start, the full
-  server output is written here. Check it for the underlying error.
-- **On-disk cache:** each user gets a private cache (e.g. `/tmp/biopb-cache-<uid>`) with its
-  own lock, so multiple users on the same node don't collide.
-- **Saved client config:** the Data Browser remembers the last server URL
-  (`tensor_browser.server_url`) so you don't have to set it every time.
+Paths below are for Linux and macOS.
+
+### Config files
+
+- **Data server config:** `~/.config/biopb/biopb.toml` — settings for the local tensor
+  server (data sources, ports, cache). Override the path with the `CONFIG_FILE` env var.
+- **Client / MCP config:** `~/.config/biopb-mcp/config.json` — settings for the napari client
+  and agent bridge. This is also where the Data Browser remembers the last server URL
+  (`tensor_browser.server_url`), so you don't have to set it every time.
+
+### Logs and cache
+
+- **MCP kernel log:** `~/.local/share/biopb-mcp/log/kernel.log` — output from the kernel that
+  runs your agent's code and hosts the napari viewer. Check here if the agent's session
+  misbehaves.
+- **Data server logs:** `~/.local/share/biopb/logs/` — when a local data server fails to start,
+  the full server output is written here. Check it for the underlying error.
+- **On-disk cache:** Data servers lean heavily on caching to achieve fast zero-copy data transfer.
+  But you can delete these files if you no longer need the server or want to start from scratch.
+
+## What's inside the config files
+
+### Data server — `biopb.toml`
+
+The local tensor server reads a TOML file. A minimal one points it at a directory of data:
+
+```toml
+[server]
+host = "127.0.0.1"
+port = 8815
+
+[[sources]]
+url = "/data"            # directories are scanned recursively for data
+```
+
+You can declare multiple sources, override metadata per source, and enable live directory
+monitoring. See [Data (tensor) servers](data-servers.md#deploying-your-own) for the full
+reference.
+
+### Client / MCP — `config.json`
+
+The client config is a nested JSON file. It's deep-merged with the built-in defaults, so you
+only need to include the keys you want to change. The entries most users touch:
+
+| Key | Default | What it does |
+|-----|---------|--------------|
+| `tensor_browser.server_url` | `grpc://localhost:8815` | Which data server to connect to. The `BIOPB_TENSOR_URL` env var overrides it. |
+| `mcp.services.process_image_servers` | `[]` | List of [algorithm server](algorithm-servers.md) URLs to expose to your agent, e.g. `["grpc://localhost:50051"]`. |
+| `mcp.dask.scheduler` | `"distributed"` | Compute mode: `"distributed"` (multi-process), `"threads"`, or `"synchronous"`. |
+| `mcp.dask.num_workers` | `0` | Worker processes for local compute; `0` lets dask pick (~CPU count). |
+| `mcp.dask.memory_limit` | `"auto"` | Per-worker memory cap, e.g. `"4G"`. |
+| `mcp.dask.address` | `""` | Connect to an external dask scheduler instead of spinning up a local cluster. |
+| `mcp.dask.cache_budget` | `"1G"` | Cluster-wide chunk-cache budget, split across workers. |
+| `mcp.transport.display_mode` | `"auto"` | `"auto"`, `"visible"`, or `"headless"` (run without opening a napari window). |
+
+For example, to register an algorithm server:
+
+```json
+{
+  "mcp": {
+    "services": {
+      "process_image_servers": ["grpc://localhost:50051"]
+    }
+  }
+}
+```
+
+There are many more advanced keys (operation timeouts, gRPC limits, pyramid building, kernel
+watchdog) that most users never need to touch; the defaults are sensible. You can also ask
+your agent to edit `config.json` for you instead of editing it by hand.
 
 ## See also
 

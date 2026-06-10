@@ -7,8 +7,6 @@ OpenCode, Cursor, or Hermes. You ask the agent to open an image or run an analys
 drives biopb for you: loading data, running segmentation and other algorithms, and showing
 results in a live [napari](https://napari.org) viewer you can watch and tweak.
 
-There is **no server to start by hand**. Install once, then open your agent and ask.
-
 [Get started](getting-started.md){ .md-button .md-button--primary }
 [How it fits together](concepts.md){ .md-button }
 
@@ -18,10 +16,10 @@ There is **no server to start by hand**. Install once, then open your agent and 
 
 - **Open and browse large microscopy data** — OME-Zarr, OME-TIFF, HDF5, CZI, LIF, ND2, and
   more — even datasets far larger than your computer's memory.
-- **Run trained models** for segmentation and restoration (Cellpose, UNiFMIR, and
-  others) without writing boilerplate.
 - **Do open-ended analysis in plain language.** Filtering, measurements, region properties,
   spatial statistics — your agent writes the code and you watch results appear in napari.
+- **Run trained models** for segmentation and restoration (Cellpose, UNiFMIR, and
+  others) without writing boilerplate.
 - **Stay in control.** Image results land in the viewer; numbers and tables go to the chat;
   you decide what to save.
 

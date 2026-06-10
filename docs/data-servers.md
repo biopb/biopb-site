@@ -61,20 +61,33 @@ For multiple data sources, metadata overrides, live directory monitoring, and HP
 (Singularity/SLURM) deployment, configure the server with a TOML file and see the
 [tensor-server documentation on GitHub](https://github.com/biopb/biopb/tree/main/biopb-tensor-server).
 
-```toml
-[server]
-host = "127.0.0.1"
-port = 8815
+## Command-line tools
 
-[[sources]]
-url = "/data"            # directories are scanned recursively for data
+The standard install also gives you a `biopb` command (from the SDK) for managing and
+diagnosing servers from a terminal. Run `biopb --help`, or `biopb <command> --help`, for the
+full options — the essentials:
 
-[[sources]]
-source_id  = "my-zarr"   # a specific source, with metadata overrides
-type       = "zarr"
-url        = "/experiment.zarr"
-dim_labels = ["z", "y", "x"]
+**Manage a local server**
+
+```bash
+biopb server start      # start the local tensor server as a background daemon
+biopb server status     # is it running, and where?
+biopb server stop
+biopb server restart
 ```
+
+**Diagnose a running server** (works against any server, local or remote — pass
+`--server <url>` for a non-default one):
+
+```bash
+biopb tensor query      # list the data sources and tensors a server is serving
+biopb tensor metadata   # inspect a source's metadata and tensor descriptors
+biopb tensor stats      # min / max / mean for a tensor
+biopb version           # show the installed biopb version
+```
+
+`biopb tensor query` is the quickest way to confirm a server is reachable and see what data
+it exposes.
 
 ## Security
 
@@ -90,4 +103,4 @@ dim_labels = ["z", "y", "x"]
 - A **dev/bypass mode** disables token enforcement for local development — don't use it on a
   shared machine.
 
-See [Configuration](configuration.md) for the full list of environment variables.
+See [Configuration](configuration.md) for more details on how to configure your data server.
