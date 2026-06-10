@@ -16,6 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build docs
+        run: |
+          pip install -r requirements-docs.txt
+          mkdocs build --strict   # outputs to ./site
+
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -23,11 +33,25 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H biopb.org >> ~/.ssh/known_hosts
 
-      - name: Deploy with rsync
+      - name: Deploy landing site with rsync
         run: |
+          # The single --exclude='docs/' both skips uploading the Markdown source and
+          # shields the deployed /docs/ directory from --delete.
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='*.mp4' \
+            --exclude='docs/' \
+            --exclude='site/' \
+            --exclude='mkdocs.yml' \
+            --exclude='requirements-docs.txt' \
+            --exclude='.venv-docs' \
+            --exclude='__pycache__' \
             -e "ssh -i ~/.ssh/id_ed25519" \
             ./ jyu@biopb.org:/var/www/biopb.org/
+
+      - name: Deploy docs with rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            ./site/ jyu@biopb.org:/var/www/biopb.org/docs/

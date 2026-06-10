@@ -1,0 +1,65 @@
+/* biopb docs — brand override so MkDocs Material matches the biopb.org landing page.
+   Palette is wired via theme.palette.{primary,accent}: custom in mkdocs.yml. */
+
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color:        #2563d6;  /* --accent */
+  --md-primary-fg-color--light: #4f83e3;
+  --md-primary-fg-color--dark:  #1b49a0;  /* --accent-dark */
+  --md-primary-bg-color:        #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+}
+
+[data-md-color-accent="custom"] {
+  --md-accent-fg-color:         #1b49a0;  /* --accent-dark, for hover/links */
+  --md-accent-fg-color--transparent: rgba(37, 99, 214, 0.1);
+}
+
+:root {
+  /* Match the landing page's system font + mono stacks. */
+  --md-text-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --md-code-font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --md-default-fg-color: #14181f;          /* --ink */
+}
+
+/* Slightly tighter, more "scientific landing page" feel for body copy. */
+.md-typeset {
+  font-size: 0.78rem;
+  color: #14181f;
+}
+
+/* Links pick up the brand blue. */
+.md-typeset a {
+  color: #2563d6;
+}
+.md-typeset a:hover {
+  color: #1b49a0;
+}
+
+/* Left-hand navigation panel: bump the font size up a step from Material's
+   default (~0.7rem) and indent nested levels so the section hierarchy reads. */
+.md-sidebar--primary .md-nav {
+  font-size: 0.8rem;
+}
+
+/* Each nested .md-nav (pages under a section, etc.) compounds the indent,
+   producing a clear stepped hierarchy, and renders a step smaller than the
+   top-level section headings. */
+.md-sidebar--primary .md-nav .md-nav {
+  padding-left: 0.7rem;
+  font-size: 0.72rem;
+}
+
+/* Give the hero/landing-style call-out buttons the rounded brand look. */
+.md-typeset .md-button {
+  border-radius: 999px;
+}
+.md-typeset .md-button--primary {
+  background-color: #2563d6;
+  border-color: #2563d6;
+}
+.md-typeset .md-button--primary:hover {
+  background-color: #1b49a0;
+  border-color: #1b49a0;
+}
