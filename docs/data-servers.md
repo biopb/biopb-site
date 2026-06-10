@@ -61,6 +61,34 @@ For multiple data sources, metadata overrides, live directory monitoring, and HP
 (Singularity/SLURM) deployment, configure the server with a TOML file and see the
 [tensor-server documentation on GitHub](https://github.com/biopb/biopb/tree/main/biopb-tensor-server).
 
+## Command-line tools
+
+The standard install also gives you a `biopb` command (from the SDK) for managing and
+diagnosing servers from a terminal. Run `biopb --help`, or `biopb <command> --help`, for the
+full options — the essentials:
+
+**Manage a local server**
+
+```bash
+biopb server start      # start the local tensor server as a background daemon
+biopb server status     # is it running, and where?
+biopb server stop
+biopb server restart
+```
+
+**Diagnose a running server** (works against any server, local or remote — pass
+`--server <url>` for a non-default one):
+
+```bash
+biopb tensor query      # list the data sources and tensors a server is serving
+biopb tensor metadata   # inspect a source's metadata and tensor descriptors
+biopb tensor stats      # min / max / mean for a tensor
+biopb version           # show the installed biopb version
+```
+
+`biopb tensor query` is the quickest way to confirm a server is reachable and see what data
+it exposes.
+
 ## Security
 
 !!! warning "Transport is unencrypted by default"
