@@ -26,7 +26,6 @@ This is the same idea as the [shared canvas in napari](using-napari.md) — you 
 agent work over one session — applied to the *code* the agent runs rather than the
 *images* it produces.
 
-<!-- TODO screenshot: full observe page — header with controls + a few job rows, one expanded. -->
 <figure markdown>
   ![The observe page showing recent jobs](assets/observe-overview.png)
   <figcaption>The observe page: recent <code>execute_code</code> jobs, newest first, with the kernel status and controls in the header.</figcaption>
@@ -72,12 +71,6 @@ noisy. For a running job the output tails live as it's produced (long output is
 truncated to the most recent chunk, with the full length noted). The header shows the
 kernel state — `alive`, `busy`, `headless` — and refreshes every few seconds.
 
-<!-- TODO screenshot: one job row expanded, showing the code block and its captured output. -->
-<figure markdown>
-  ![An expanded job showing its code and output](assets/observe-job-detail.png)
-  <figcaption>Expanding a job reveals the exact code the agent ran and the output it captured.</figcaption>
-</figure>
-
 ## Stepping in
 
 Three controls live in the header:
@@ -116,7 +109,6 @@ reproduces, in order:
 That gives you a complete, shareable trail of what was done to your data: drop it next
 to your results, attach it to a paper's supplement, or hand it to a colleague to review.
 
-<!-- TODO screenshot: the exported .ipynb opened in Jupyter/VS Code — bootstrap cell + a couple of job cells with output. -->
 <figure markdown>
   ![The exported audit notebook opened in Jupyter](assets/observe-notebook.png)
   <figcaption>The exported notebook: each cell is one job the agent ran, kept verbatim with its output and a header line.</figcaption>
