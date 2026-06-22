@@ -62,6 +62,7 @@ nav:
   - Using biopb:
       - Working with your agent: working-with-agents.md
       - Working with napari: using-napari.md
+      - Watching your agent: observe.md
   - Running servers:
       - Data (tensor) servers: data-servers.md
       - Algorithm servers: algorithm-servers.md
