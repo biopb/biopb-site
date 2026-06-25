@@ -71,4 +71,4 @@ the config file for you instead of editing by hand.
 Algorithm servers are deliberately uniform: each is a thin model wrapper on a shared base, so
 adding a new one is mostly "wrap a model and point it at the protocol." If your lab has a
 custom model, see the
-[biopb-server build docs](https://github.com/biopb/biopb-server/blob/main/BUILD.md).
+[biopb-image-runtime build docs](https://github.com/biopb/biopb/blob/main/biopb-image-runtime/README.md).
