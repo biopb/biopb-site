@@ -52,6 +52,13 @@ jobs:
 
       - name: Deploy docs with rsync
         run: |
+          # --exclude='api/' carves out /docs/api/ from this --delete. That
+          # subtree is owned by a SEPARATE pipeline: the biopb repo's release
+          # workflow generates the SDK API reference (Python via mkdocstrings,
+          # Java via javadoc) and rsyncs it into /docs/api/<lang>/ on each v*
+          # tag. Without this exclude, the next push-to-main deploy here would
+          # wipe it (mkdocs ./site/ never contains api/).
           rsync -avz --delete \
+            --exclude='api/' \
             -e "ssh -i ~/.ssh/id_ed25519" \
             ./site/ jyu@biopb.org:/var/www/biopb.org/docs/

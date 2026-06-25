@@ -70,3 +70,8 @@ nav:
       - Configuration: configuration.md
       - Troubleshooting: troubleshooting.md
       - Help & community: help.md
+      # SDK API reference — generated and published out-of-band by the biopb
+      # repo's release workflow into /docs/api/<lang>/ (see deploy.yml). These
+      # are external links; they go live after the first v* release publishes.
+      - SDK API (Python): https://biopb.org/docs/api/python/
+      - SDK API (Java): https://biopb.org/docs/api/java/
