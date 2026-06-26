@@ -3,8 +3,16 @@
 You only ever talk to your **agent** and watch the **napari** window. But it helps to know
 what's underneath — especially once you start working with bigger data or shared servers.
 
-biopb is built around a simple idea: **separate moving the pixels from running the
-algorithms**, and let an AI agent orchestrate both on your behalf.
+biopb is built around a simple idea: Give the AI agent resources and tools, then **ask the agent to write an image analysis program specifically tailored to your data**.
+
+!!! note "The rationale"
+    Traditional image analysis platforms, e.g., Fiji, rely on a curated set of
+    **plugins** written by human developers. However, writing a universally
+    applicable plugin is hard, even when the underlying algorithm is solid,
+    because the real data in research is highly variable and continuously evolving.
+    The biopb project is an experiment to see whether using AI to generate **custom** programs on-the-fly works better on scientific data.
+
+## The four pieces
 
 ```
         You  ⇄  AI agent
@@ -19,8 +27,6 @@ algorithms**, and let an AI agent orchestrate both on your behalf.
    (tensor server)      (algorithm servers)
    moves image data     run models (Cellpose, …)
 ```
-
-## The four pieces
 
 ### Your AI agent
 
