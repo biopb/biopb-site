@@ -100,6 +100,57 @@ biopb version           # show the installed biopb version
 `biopb tensor query` is the quickest way to confirm a server is reachable and see what data
 it exposes.
 
+## Running on Windows and shared machines
+
+A local daemon is a per-user process bound to fixed loopback ports. A handful of platform
+quirks — most of them Windows-specific — matter when several people log into the same machine,
+or when you expect a server to outlive your session.
+
+### Fixed loopback port, no per-user isolation
+
+The daemon binds `127.0.0.1:8815` (gRPC) and `127.0.0.1:8814` (web). Two people logged in at
+once — including Windows **Fast User Switching**, which is one click away — both try to bind
+the same ports. biopb **detects the collision** and refuses to start a second daemon on a port
+that's already taken (instead of silently double-binding into a dead server), so the second
+user just reuses or restarts the first. The on-disk cache is already per-user
+(`%TEMP%\biopb-cache-<username>` on Windows, `<tmp>/biopb-cache-<uid>` elsewhere), so caches
+never collide.
+
+Loopback is **not** per-user isolated, though: any local session can reach a server on
+`127.0.0.1`. On a shared machine, **set `BIOPB_TENSOR_TOKEN`** so another logged-in user can't
+read your data. To run genuinely concurrent per-user servers, give each one its own ports — a
+per-user TOML config with a distinct gRPC `port`, plus `biopb server start --web-port <p>` —
+and point each session's client at it with `BIOPB_TENSOR_URL`.
+
+### Don't run the daemon as a Windows service to "survive logout"
+
+It's a trap. Windows services run in **session 0**, which:
+
+- **can't display the napari GUI** (session-0 isolation), and
+- resolves `%USERPROFILE%` / `Path.home()` / `.config` to the **service account's** profile,
+  not yours — so config, logs, and the cache land in the wrong place — and **can't see your
+  mapped drives**.
+
+If you genuinely need a server that outlives any login session, run it on a separate always-on
+host or in a container (see [Deploying your own](#deploying-your-own)) and connect to it with
+`BIOPB_TENSOR_URL` — don't try to make your workstation daemon persistent as a session-0
+service.
+
+### Point the server at UNC paths, not mapped drive letters
+
+Windows drive-letter mappings (`Z:\`) are **per-logon-session**: they're torn down at logout
+and are invisible to other sessions and to services. Give the server **UNC paths**
+(`\\server\share\data`) instead — they don't depend on a session's drive map. (UNC also avoids
+a race if you ever autostart the server: a mapped drive may not be mounted before the server
+scans for data, so it would find nothing.)
+
+### "Shut down" still logs you off (Fast Startup)
+
+Windows **Fast Startup** turns "Shut down" into a hybrid hibernate — but it logs your session
+off first, so the daemon dies and does **not** come back when you power on. "Shut down = fresh
+start" isn't true on Windows; use **Restart** for a clean slate. Either way the daemon is
+session-bound (see the lifecycle note above), and you bring it back with `biopb server start`.
+
 ## Security
 
 !!! warning "Transport is unencrypted by default"

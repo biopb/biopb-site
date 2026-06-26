@@ -39,12 +39,17 @@ causes:
 Most likely on a shared machine or HPC node where another user already holds the default gRPC
 port (`8815`). Either:
 
-- start your server on a different base port —
-  `export BIOPB_BASE_PORT=9000` (then retry), or
-- set `BIOPB_TENSOR_URL` to the existing server instead of starting a new one.
+- point at the existing server instead of starting a new one — set `BIOPB_TENSOR_URL` (with
+  `BIOPB_TENSOR_TOKEN`), or
+- give your own server a free port. For the **containerized / HPC** server, set
+  `BIOPB_BASE_PORT=9000` (HTTP becomes `BASE+4`, gRPC `BASE+5`). For a **local
+  `biopb server start`**, put a distinct gRPC `port` in your TOML config and pass a free
+  `--web-port`, then point clients at it with `BIOPB_TENSOR_URL`.
 
-Each user gets a private on-disk cache (e.g. `/tmp/biopb-cache-<uid>`) with its own lock, so
-multiple users running their own server on the same node don't collide.
+Each user gets a private on-disk cache (`%TEMP%\biopb-cache-<username>` on Windows,
+`<tmp>/biopb-cache-<uid>` elsewhere) with its own lock, so multiple users running their own
+server on the same node don't collide. See [Running on Windows and shared
+machines](data-servers.md#running-on-windows-and-shared-machines) for the full per-user setup.
 
 ### Server started but not reachable in time
 
