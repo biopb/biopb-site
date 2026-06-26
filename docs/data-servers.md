@@ -76,6 +76,17 @@ biopb server stop
 biopb server restart
 ```
 
+!!! note "Lifecycle: the local daemon is session-bound, not persistent"
+    A daemon started with `biopb server start` lives with your login session and is
+    taken down when that session ends — Windows hard-kills session processes on
+    logout, and modern Linux (systemd-logind) kills the user scope on logout
+    regardless of `setsid`. This is by design: biopb does not try to keep a local
+    daemon alive past logout. If you need a tensor server that **survives logout** —
+    a shared or remote server — run it persistently at the infrastructure level
+    (the container/Compose service, a systemd unit, or `loginctl enable-linger`),
+    not via `biopb server start`. Any `setsid`/detach belongs in that wrapper, not
+    in the CLI.
+
 **Diagnose a running server** (works against any server, local or remote — pass
 `--server <url>` for a non-default one):
 
