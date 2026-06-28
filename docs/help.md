@@ -9,9 +9,8 @@ Hit a snag, found a bug, or have a question? Here's where to go.
 
 ## Report a problem
 
-- **[GitHub issues](https://github.com/biopb/biopb/issues)** — for bugs and feature requests
-  in the core project.
-- Client/plugin issues: **[biopb-mcp issues](https://github.com/biopb/biopb-mcp/issues)**.
+- **[GitHub issues](https://github.com/biopb/biopb/issues)** — for bugs and feature requests,
+  including the client/plugin (`biopb-mcp`).
 
 ### Filing a good report
 
@@ -29,4 +28,4 @@ A little detail goes a long way:
 - **Source code:** [github.com/biopb](https://github.com/biopb)
 - **Client package:** [PyPI](https://pypi.org/project/biopb-mcp) ·
   [napari hub](https://napari-hub.org/plugins/biopb-mcp)
-- **Releases:** [biopb-mcp releases](https://github.com/biopb/biopb-mcp/releases)
+- **Releases:** [biopb-mcp releases](https://github.com/biopb/biopb/releases)
