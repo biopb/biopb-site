@@ -40,7 +40,7 @@ Paths below are for Linux and macOS.
 
 ### Config files
 
-- **Data server config:** `~/.config/biopb/biopb.toml` — settings for the local tensor
+- **Data server config:** `~/.config/biopb/biopb.json` — settings for the local tensor
   server (data sources, ports, cache). Override the path with the `CONFIG_FILE` env var.
 - **Client / MCP config:** `~/.config/biopb-mcp/config.json` — settings for the napari client
   and agent bridge. This is also where the Data Browser remembers the last server URL
@@ -58,17 +58,18 @@ Paths below are for Linux and macOS.
 
 ## What's inside the config files
 
-### Data server — `biopb.toml`
+### Data server — `biopb.json`
 
-The local tensor server reads a TOML file. A minimal one points it at a directory of data:
+The local tensor server reads a JSON file. A minimal one points it at a directory of data
+(directories are scanned recursively):
 
-```toml
-[server]
-host = "127.0.0.1"
-port = 8815
-
-[[sources]]
-url = "/data"            # directories are scanned recursively for data
+```json
+{
+  "server": { "host": "127.0.0.1", "port": 8815 },
+  "sources": [
+    { "url": "/data" }
+  ]
+}
 ```
 
 You can declare multiple sources, override metadata per source, and enable live directory
