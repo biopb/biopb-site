@@ -131,7 +131,7 @@
             <button class="choice" type="button" data-go="panel-native">
               <span class="choice__icon" aria-hidden="true">💻</span>
               <span class="choice__title">Stay native <span class="pill pill--soft">Experimental</span></span>
-              <span class="choice__desc">Stick to plain Windows and use the OpenCode desktop app as your AI agent. Less setup — no Linux to learn.</span>
+              <span class="choice__desc">Stick to plain Windows and install with a click-through setup wizard. No Linux to learn.</span>
             </button>
           </div>
 
@@ -221,13 +221,29 @@
             <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
           </div>
 
-          <!-- Native route -->
+          <!-- Native route: GUI installer -->
           <div class="panel" id="panel-native" data-group="win">
-            <h3 class="panel__h" style="font-size:1.25rem;">The native route 💻</h3>
+            <h3 class="panel__h" style="font-size:1.25rem;">The installer app 🖱️</h3>
             <p>
-              Prefer to stay on plain Windows? You'll talk to biopb through a supported AI agent,
-              and a one-line installer wires biopb straight into it for you.
+              Stay on plain Windows with a normal setup wizard: download one file, click through,
+              done. It installs just for you (no administrator needed) and wires biopb into your AI
+              agent for you.
             </p>
+
+            <div class="note note--warn">
+              <strong>Heads-up: the installer isn't code-signed yet, so Windows will try to stop
+              you.</strong> These warnings are expected — you'll need to click past each one:
+              <ul>
+                <li>Your browser may flag the download (“<em>biopb-setup… isn't commonly
+                  downloaded</em>”). Choose <strong>Keep</strong> → <strong>Keep anyway</strong>.</li>
+                <li>When you run it, <strong>Windows SmartScreen</strong> shows “<em>Windows
+                  protected your PC</em>” with an <em>Unknown publisher</em>. Click
+                  <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+              </ul>
+              We're working on a signing certificate to remove these. Until then you can verify the
+              file against the <code>SHA256SUMS</code> published with each
+              <a href="https://github.com/biopb/biopb/releases/latest">release</a>.
+            </div>
 
             <p class="step__q" style="font-size:1.05rem;">
               Quick check — do you already use one of these agents?
@@ -237,7 +253,7 @@
               <button class="choice" type="button" data-go="panel-native-have">
                 <span class="choice__icon" aria-hidden="true">✅</span>
                 <span class="choice__title">Yes, I've got one</span>
-                <span class="choice__desc">Great — we'll skip straight to wiring biopb into it.</span>
+                <span class="choice__desc">Great — the installer will wire biopb straight into it.</span>
               </button>
               <button class="choice" type="button" data-go="panel-native-need">
                 <span class="choice__icon" aria-hidden="true">📥</span>
@@ -250,24 +266,21 @@
             <div class="panel" id="panel-native-have" data-group="agent">
               <ol class="steps">
                 <li>
-                  <h4>Run the installer</h4>
+                  <h4>Download the installer</h4>
                   <p>
-                    Open <strong>PowerShell</strong> (the normal one — no administrator needed),
-                    then paste:
+                    Download it directly:
+                    <a class="js-exe-link" href="https://github.com/biopb/biopb/releases"><strong>biopb-setup.exe</strong></a>
+                    (links straight to the installer for the newest release). Click past your
+                    browser's download warning as noted above.
                   </p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
-                      <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
-                    </div>
-                  </div>
-                  <p style="margin-top:10px;">
-                    It finds your agent — OpenCode, Claude Code, Cursor, or Hermes — and connects
-                    biopb to it automatically. Nothing to configure by hand.
+                </li>
+                <li>
+                  <h4>Run it and click past the warning</h4>
+                  <p>
+                    Double-click the file. At the SmartScreen “Unknown publisher” screen, choose
+                    <strong>More info → Run anyway</strong>, then follow the wizard. No administrator
+                    prompt — it installs just for you, finds your agent and connects biopb to it
+                    automatically, and downloads and sets everything up (a few minutes).
                   </p>
                 </li>
                 <li>
@@ -284,11 +297,13 @@
             <div class="panel" id="panel-native-need" data-group="agent">
               <ol class="steps">
                 <li>
-                  <h4>Install the OpenCode desktop app</h4>
+                  <h4>Install the OpenCode desktop app first</h4>
                   <p>
                     Download OpenCode for Windows from
-                    <a href="https://opencode.ai/download">opencode.ai/download</a> and run the Windows installer
-                    (next-next-finish). This is the free chat app you'll talk to biopb through.
+                    <a href="https://opencode.ai/download">opencode.ai/download</a> and run the
+                    Windows installer (next-next-finish). This is the free chat app you'll talk to
+                    biopb through — install it <strong>before</strong> biopb so the biopb installer
+                    can find it and wire itself in.
                   </p>
                   <div class="note">
                     <strong>On first launch it'll ask you to connect an AI model.</strong> Choose
@@ -298,24 +313,21 @@
                   </div>
                 </li>
                 <li>
-                  <h4>Run the installer</h4>
+                  <h4>Download the installer</h4>
                   <p>
-                    Open <strong>PowerShell</strong> (the normal one — no administrator needed),
-                    then paste:
+                    Download it directly:
+                    <a class="js-exe-link" href="https://github.com/biopb/biopb/releases"><strong>biopb-setup.exe</strong></a>
+                    (links straight to the installer for the newest release). Click past your
+                    browser's download warning as noted above.
                   </p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
-                      <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
-                    </div>
-                  </div>
-                  <p style="margin-top:10px;">
-                    It finds your OpenCode app and connects biopb to it automatically — nothing to
-                    configure by hand.
+                </li>
+                <li>
+                  <h4>Run it and click past the warning</h4>
+                  <p>
+                    Double-click the file. At the SmartScreen “Unknown publisher” screen, choose
+                    <strong>More info → Run anyway</strong>, then follow the wizard. It installs
+                    per-user (no administrator prompt), finds your OpenCode app and connects biopb
+                    to it automatically, and downloads and sets everything up (a few minutes).
                   </p>
                 </li>
                 <li>
@@ -328,11 +340,6 @@
               </ol>
             </div>
 
-            <div class="note">
-              <strong>Curious what that command does?</strong> <code>irm … | iex</code> is just
-              PowerShell for “download our setup script and run it.” You can read it first at
-              <a href="https://biopb.org/install.ps1">biopb.org/install.ps1</a>.
-            </div>
             <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
           </div>
         </div>
@@ -466,6 +473,37 @@
       // --- Current year ---
       var y = document.getElementById('year');
       if (y) y.textContent = new Date().getFullYear();
+
+      // --- Resolve the direct Windows installer (.exe) download link ---
+      // The installer is a versioned release asset (biopb-setup-<version>.exe), so
+      // there's no fixed URL. Ask the GitHub API for the newest release that ships
+      // one and point the link straight at that asset. If the fetch fails (offline,
+      // rate-limited, API change), the links keep their fallback href — the
+      // releases page — so they always work.
+      var exeLinks = document.querySelectorAll('.js-exe-link');
+      if (exeLinks.length && window.fetch) {
+        fetch('https://api.github.com/repos/biopb/biopb/releases?per_page=20', {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (releases) {
+            if (!releases || !releases.length) return;
+            for (var i = 0; i < releases.length; i++) {
+              if (releases[i].prerelease) continue;   // skip rc / pre-releases
+              var assets = releases[i].assets || [];
+              for (var j = 0; j < assets.length; j++) {
+                if (/^biopb-setup-.*\.exe$/.test(assets[j].name)) {
+                  exeLinks.forEach(function (a) {
+                    a.href = assets[j].browser_download_url;
+                    a.innerHTML = '<strong>' + assets[j].name + '</strong>';
+                  });
+                  return;
+                }
+              }
+            }
+          })
+          .catch(function () { /* keep the fallback href */ });
+      }
     })();
   </script>
 </body>

@@ -215,6 +215,9 @@ a:hover { text-decoration: underline; }
   padding: 12px 16px; margin: 16px 0 0;
 }
 .note strong { color: var(--ink); }
+.note ul { margin: 8px 0 0; padding-left: 18px; }
+.note li { margin: 4px 0; }
+.note--warn { border-left-color: #d97706; background: rgba(217, 119, 6, 0.09); }
 
 .startover {
   display: inline-flex; align-items: center; gap: 7px; margin-top: 6px;
