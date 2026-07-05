@@ -56,6 +56,30 @@ machines](data-servers.md#running-on-windows-and-shared-machines) for the full p
 Startup exceeded the timeout. Check the server log for the real error, then try connecting
 again once it's up.
 
+## An image looks scrambled or "ghosted" in the viewer
+
+Once in a while a layer renders wrong: pixels from a layer you already closed bleed through, the
+image looks scrambled or mixed with unrelated data, or a stale frame "sticks" and won't update
+when you change the slice, zoom, or 2D/3D view.
+
+**Your data is fine.** This is a display glitch in [napari](using-napari.md)'s GPU canvas, not a
+problem with your pixels — what the [data server](data-servers.md) sent and the layer is holding is
+unchanged. It tends to show up after a session that has added and removed a lot of layers (napari
+doesn't always clear the old ones off the GPU cleanly, so a leftover image keeps drawing underneath
+the current one), and older or virtualized graphics drivers make it more likely.
+
+To clear it:
+
+- **Restart the viewer — the reliable fix.** Close and reopen the napari window, or ask your agent
+  to restart its session. This rebuilds the canvas from scratch and clears the leftovers.
+- **Quicker things to try first** (not guaranteed): toggle between 2D and 3D (press `2` or `3`),
+  resize the window, or remove and re-add the affected layer. If the scramble survives, fall back
+  to a restart.
+
+Re-add the layer to confirm — if it now looks right, the earlier frame was a display artifact, not
+your data. Keeping your graphics drivers up to date, and not bulk-adding then removing large numbers
+of layers in a single session, makes it happen less often.
+
 ## Algorithm server problems
 
 - **No GPU / CUDA errors** — confirm an NVIDIA driver (>= 525) and the [NVIDIA Container
