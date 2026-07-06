@@ -229,6 +229,127 @@
           <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
         </div>
 
+        <!-- ===== Troubleshooting ===== -->
+        <div class="faq">
+          <h3 class="faq__h">Troubleshooting 🔧</h3>
+          <p class="faq__lead">
+            Hit one of these? Here's the quick fix. Rerunning is always safe — the installer is
+            idempotent, so it just picks up where it left off.
+          </p>
+
+          <details class="faq__item">
+            <summary>Windows: “running scripts is disabled on this system”</summary>
+            <div class="faq__body">
+              <p>
+                Windows blocks PowerShell scripts by default. The simplest fix is to run the
+                installer with a one-time bypass — paste this into <strong>PowerShell</strong> (the
+                normal one, no administrator needed):
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">PowerShell</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">&gt;</span> powershell -ExecutionPolicy Bypass -c "irm https://biopb.org/install.ps1 | iex"</code>
+                  <button class="term__copy" type="button" data-cmd="powershell -ExecutionPolicy Bypass -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
+                </div>
+              </div>
+              <p style="margin-top:10px;">
+                Prefer to fix it for good? Allow signed scripts for your account once, then rerun the
+                normal one-liner:
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">PowerShell</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">&gt;</span> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>
+                  <button class="term__copy" type="button" data-cmd="Set-ExecutionPolicy -Scope CurrentUser RemoteSigned">Copy</button>
+                </div>
+              </div>
+              <div class="note">
+                On a work or school PC, a company Group Policy can override both of these. If scripts
+                are still blocked, ask your IT admin to allow them.
+              </div>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Windows: “tar not found”, or it tells you to update Windows</summary>
+            <div class="faq__body">
+              <p>
+                The installer relies on <code>tar</code>, which ships with <strong>Windows 10
+                version 1803 and newer</strong>. If you see this, your Windows is too old. Check your
+                version by pressing <kbd>⊞ Win</kbd>, typing <code>winver</code>, and hitting Enter —
+                then update to Windows 10 (1803+) or Windows 11 and rerun.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>macOS: the install stalls compiling <code>llvmlite</code>, or won't finish</summary>
+            <div class="faq__body">
+              <p>
+                You're most likely on an older macOS than the prebuilt wheels support. biopb needs
+                <strong>macOS 12 Monterey or newer</strong> on Apple Silicon (arm64), or
+                <strong>macOS 10.15 Catalina or newer</strong> on Intel (x86_64).
+              </p>
+              <p>
+                napari's optional <code>numba</code> accelerator pulls in <code>llvmlite</code>, whose
+                prebuilt wheels target those OS floors. On an older macOS there's no matching wheel,
+                so the installer falls back to compiling <code>llvmlite</code> from source — which
+                needs an LLVM toolchain and fails on a stock machine. Upgrading macOS is the fix;
+                there's no build workaround the installer can apply for you.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>“Unsupported OS” or “Unsupported architecture”</summary>
+            <div class="faq__body">
+              <p>
+                biopb installs on Linux, macOS, and Windows, running on 64-bit Intel/AMD
+                (<code>x86_64</code>) or ARM (<code>arm64</code>, including Apple Silicon). Older
+                32-bit machines aren't supported.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Linux: “curl: command not found”</summary>
+            <div class="faq__body">
+              <p>
+                Some minimal Linux images don't ship <code>curl</code>. Install it first, then rerun
+                the one-liner (on Debian/Ubuntu):
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">Terminal</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y curl</code>
+                  <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y curl">Copy</button>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>It installed, but <code>biopb</code> or my agent “isn't recognized”</summary>
+            <div class="faq__body">
+              <p>
+                The installer adds biopb to your PATH, but a terminal that was already open won't see
+                the change. Close that window, open a fresh one, and try again. If it still can't be
+                found, just rerun the installer — it's safe to run twice and will finish wiring
+                everything up.
+              </p>
+            </div>
+          </details>
+        </div>
+
         <!-- ===== Help ===== -->
         <div class="help">
           <h3>Still stuck? We've got you. 🤝</h3>
