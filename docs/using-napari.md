@@ -5,14 +5,28 @@
 (part of `biopb-mcp`) connects napari to a data server so you, and your agent, can browse and
 open data.
 
-## Browsing and opening data
+<figure markdown>
+  ![The biopb napari window: the central canvas with the Data Browser panel on the right](assets/using-napari-viewer.png)
+  <figcaption>The two areas you'll use most: the <strong>canvas</strong>, where images and results are displayed, and the <strong>Data Browser</strong> on the right, which lists the sources on your data server.</figcaption>
+</figure>
 
-The Data Browser connects to a [data server](data-servers.md) and lists the data
-sources in this server's catalog. From there you can open a source (right click) as a napari image layer. 
+## Data Browser
 
-Because data is **lazy**, opening a huge multi-dimensional image does not read all pixels into memory. Instead,
-data streams in as you scroll through Z, time, or channels, and only the planes you actually view
-are fetched.
+The Data Browser is the workspace where your image data appears. To open a source that's already
+listed, **right-click it** and open it as a napari image layer.
+
+Reading data is **lazy**, which means opening a huge multi-dimensional image does not read all
+pixels into memory. Instead, data streams in as you scroll through Z, time, or channels, and only
+the planes you actually view are fetched.
+
+To add a new dataset, simply **drag a file or folder from your file manager onto the Data
+Browser**, and the [data server](data-servers.md) registers it on the spot — no restart. The drop
+runs through the same reader pipeline as a watched directory, so you can drop the [same formats the
+server reads](data-servers.md#what-it-does).
+
+!!! note
+    Only **local** files and folders can be dropped this way. To serve data from a shared store or
+    a remote machine, see [Data servers](data-servers.md).
 
 ## A shared canvas with your agent
 

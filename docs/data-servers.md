@@ -58,7 +58,7 @@ docker run -d --rm \
 - `BIOPB_TENSOR_TOKEN` sets the access token (see [Security](#security)).
 
 For multiple data sources, metadata overrides, live directory monitoring, and HPC
-(Singularity/SLURM) deployment, configure the server with a TOML file and see the
+(Singularity/SLURM) deployment, configure the server with a JSON file and see the
 [tensor-server documentation on GitHub](https://github.com/biopb/biopb/tree/main/biopb-tensor-server).
 
 ## Command-line tools
@@ -119,7 +119,7 @@ never collide.
 Loopback is **not** per-user isolated, though: any local session can reach a server on
 `127.0.0.1`. On a shared machine, **set `BIOPB_TENSOR_TOKEN`** so another logged-in user can't
 read your data. To run genuinely concurrent per-user servers, give each one its own ports — a
-per-user TOML config with a distinct gRPC `port`, plus `biopb server start --web-port <p>` —
+per-user JSON config with a distinct gRPC `port`, plus `biopb server start --web-port <p>` —
 and point each session's client at it with `BIOPB_TENSOR_URL`.
 
 ### Don't run the daemon as a Windows service to "survive logout"

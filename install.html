@@ -114,227 +114,240 @@
           <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
         </div>
 
-        <!-- ===== Windows: pick a route ===== -->
+        <!-- ===== Windows result ===== -->
         <div class="panel" id="panel-win" data-group="os">
-          <h2 class="panel__h">Windows: two solid routes. Pick your vibe. 🪟</h2>
+          <h2 class="panel__h">Windows: one quick extra step. 🪟</h2>
           <p>
-            Either way you'll install one thing yourself first — that's just how Windows rolls.
-            Choose the one that fits you:
+            On Windows you'll talk to biopb through a supported AI agent, and a one-line
+            installer wires biopb straight into it for you.
           </p>
 
-          <div class="choices" data-group="win">
-            <button class="choice" type="button" data-go="panel-wsl">
-              <span class="choice__icon" aria-hidden="true">🐧</span>
-              <span class="choice__title">Use WSL <span class="pill">Recommended</span></span>
-              <span class="choice__desc">Run a real Linux inside Windows, then install exactly like Mac/Linux. More setup, but the identical experience.</span>
+          <p class="step__q" style="font-size:1.05rem;">
+            Quick check — do you already use one of these agents?
+            <br><span style="font-weight:500;color:var(--ink-soft);font-size:0.95rem;">OpenCode, Claude Code, Cursor, or Hermes</span>
+          </p>
+          <div class="choices" data-group="agent">
+            <button class="choice" type="button" data-go="panel-native-have">
+              <span class="choice__icon" aria-hidden="true">✅</span>
+              <span class="choice__title">Yes, I've got one</span>
+              <span class="choice__desc">Great — we'll skip straight to wiring biopb into it.</span>
             </button>
-            <button class="choice" type="button" data-go="panel-native">
-              <span class="choice__icon" aria-hidden="true">💻</span>
-              <span class="choice__title">Stay native <span class="pill pill--soft">Experimental</span></span>
-              <span class="choice__desc">Stick to plain Windows and use the OpenCode desktop app as your AI agent. Less setup — no Linux to learn.</span>
+            <button class="choice" type="button" data-go="panel-native-need">
+              <span class="choice__icon" aria-hidden="true">📥</span>
+              <span class="choice__title">Not yet</span>
+              <span class="choice__desc">No problem — we'll grab OpenCode, the free desktop app, first.</span>
             </button>
           </div>
 
-          <!-- WSL route -->
-          <div class="panel" id="panel-wsl" data-group="win">
-            <h3 class="panel__h" style="font-size:1.25rem;">The WSL route 🐧🪟</h3>
-            <p>
-              WSL (Windows Subsystem for Linux) lets Windows run a genuine Linux inside itself.
-              Set it up once, and biopb installs exactly like it does on Mac and Linux.
-            </p>
+          <!-- Already has an agent -->
+          <div class="panel" id="panel-native-have" data-group="agent">
             <ol class="steps">
               <li>
-                <h4>Turn on WSL</h4>
+                <h4>Run the installer</h4>
                 <p>
-                  Click Start, type “PowerShell”, then choose <strong>Run as administrator</strong>.
-                  In the blue window, paste:
+                  Open <strong>PowerShell</strong> (the normal one — no administrator needed),
+                  then paste:
                 </p>
                 <div class="term">
                   <div class="term__bar">
                     <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">PowerShell (Administrator)</span>
+                    <span class="term__title">PowerShell</span>
                   </div>
                   <div class="term__body">
-                    <code><span class="term__prompt">&gt;</span> wsl --install</code>
-                    <button class="term__copy" type="button" data-cmd="wsl --install">Copy</button>
-                  </div>
-                </div>
-                <p style="margin-top:10px;">Restart your PC when it asks you to.</p>
-              </li>
-              <li>
-                <h4>Set up Ubuntu</h4>
-                <p>
-                  After the restart, an Ubuntu window opens and asks you to pick a username and
-                  password. Choose anything you like — just remember them. (This is your new Linux
-                  account; the password won't show as you type, that's normal.)
-                </p>
-              </li>
-              <li>
-                <h4>Grab the basics</h4>
-                <p>
-                  A fresh Ubuntu doesn't ship with <code>curl</code>, so install it first (it'll
-                  ask for the password you just created — the typing stays hidden):
-                </p>
-                <div class="term">
-                  <div class="term__bar">
-                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">Ubuntu (WSL)</span>
-                  </div>
-                  <div class="term__body">
-                    <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y curl</code>
-                    <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y curl">Copy</button>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <h4>Install biopb</h4>
-                <p>In that same Ubuntu window, paste the one-liner everyone else uses:</p>
-                <div class="term">
-                  <div class="term__bar">
-                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">Ubuntu (WSL)</span>
-                  </div>
-                  <div class="term__body">
-                    <code><span class="term__prompt">$</span> curl -fsSL https://biopb.org/install.sh | bash</code>
-                    <button class="term__copy" type="button" data-cmd="curl -fsSL https://biopb.org/install.sh | bash">Copy</button>
+                    <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
+                    <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
                   </div>
                 </div>
                 <p style="margin-top:10px;">
-                  Partway through, it'll pause to help you set up a free <strong>OpenCode Zen</strong>
-                  account — just follow the prompt (no credit card, free models included) and paste
-                  the key back when it asks.
+                  It finds your agent — OpenCode, Claude Code, Cursor, or Hermes — and connects
+                  biopb to it automatically. Nothing to configure by hand.
                 </p>
               </li>
               <li>
                 <h4>Open your agent and ask ✨</h4>
                 <p style="margin:0;">
-                  No server to start — open your AI agent and ask it to load an image or run an
+                  No server to start — open your agent and ask it to load an image or run an
                   analysis. Your agent launches biopb on its own whenever it needs it.
                 </p>
               </li>
             </ol>
-            <div class="note">
-              <strong>Stuck on the WSL step?</strong> Microsoft's short
-              <a href="https://learn.microsoft.com/windows/wsl/install">WSL install guide</a>
-              walks through it with screenshots.
-            </div>
-            <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
           </div>
 
-          <!-- Native route -->
-          <div class="panel" id="panel-native" data-group="win">
-            <h3 class="panel__h" style="font-size:1.25rem;">The native route 💻</h3>
-            <p>
-              Prefer to stay on plain Windows? You'll talk to biopb through a supported AI agent,
-              and a one-line installer wires biopb straight into it for you.
-            </p>
-
-            <p class="step__q" style="font-size:1.05rem;">
-              Quick check — do you already use one of these agents?
-              <br><span style="font-weight:500;color:var(--ink-soft);font-size:0.95rem;">OpenCode, Claude Code, Cursor, or Hermes</span>
-            </p>
-            <div class="choices" data-group="agent">
-              <button class="choice" type="button" data-go="panel-native-have">
-                <span class="choice__icon" aria-hidden="true">✅</span>
-                <span class="choice__title">Yes, I've got one</span>
-                <span class="choice__desc">Great — we'll skip straight to wiring biopb into it.</span>
-              </button>
-              <button class="choice" type="button" data-go="panel-native-need">
-                <span class="choice__icon" aria-hidden="true">📥</span>
-                <span class="choice__title">Not yet</span>
-                <span class="choice__desc">No problem — we'll grab OpenCode, the free desktop app, first.</span>
-              </button>
-            </div>
-
-            <!-- Native: already has an agent -->
-            <div class="panel" id="panel-native-have" data-group="agent">
-              <ol class="steps">
-                <li>
-                  <h4>Run the installer</h4>
-                  <p>
-                    Open <strong>PowerShell</strong> (the normal one — no administrator needed),
-                    then paste:
-                  </p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
-                      <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
-                    </div>
+          <!-- Needs an agent -->
+          <div class="panel" id="panel-native-need" data-group="agent">
+            <ol class="steps">
+              <li>
+                <h4>Install the OpenCode desktop app</h4>
+                <p>
+                  Download OpenCode for Windows from
+                  <a href="https://opencode.ai/download">opencode.ai/download</a> and run the Windows installer
+                  (next-next-finish). This is the free chat app you'll talk to biopb through.
+                </p>
+                <div class="note">
+                  <strong>On first launch it'll ask you to connect an AI model.</strong> Choose
+                  <strong>OpenCode Zen</strong> and create a free account — no credit card needed,
+                  and it comes with a few free models to get you started. (Already have an
+                  Anthropic or OpenAI key? You can paste that in instead.)
+                </div>
+              </li>
+              <li>
+                <h4>Run the installer</h4>
+                <p>
+                  Open <strong>PowerShell</strong> (the normal one — no administrator needed),
+                  then paste:
+                </p>
+                <div class="term">
+                  <div class="term__bar">
+                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                    <span class="term__title">PowerShell</span>
                   </div>
-                  <p style="margin-top:10px;">
-                    It finds your agent — OpenCode, Claude Code, Cursor, or Hermes — and connects
-                    biopb to it automatically. Nothing to configure by hand.
-                  </p>
-                </li>
-                <li>
-                  <h4>Open your agent and ask ✨</h4>
-                  <p style="margin:0;">
-                    No server to start — open your agent and ask it to load an image or run an
-                    analysis. Your agent launches biopb on its own whenever it needs it.
-                  </p>
-                </li>
-              </ol>
-            </div>
-
-            <!-- Native: needs an agent -->
-            <div class="panel" id="panel-native-need" data-group="agent">
-              <ol class="steps">
-                <li>
-                  <h4>Install the OpenCode desktop app</h4>
-                  <p>
-                    Download OpenCode for Windows from
-                    <a href="https://opencode.ai/download">opencode.ai/download</a> and run the Windows installer
-                    (next-next-finish). This is the free chat app you'll talk to biopb through.
-                  </p>
-                  <div class="note">
-                    <strong>On first launch it'll ask you to connect an AI model.</strong> Choose
-                    <strong>OpenCode Zen</strong> and create a free account — no credit card needed,
-                    and it comes with a few free models to get you started. (Already have an
-                    Anthropic or OpenAI key? You can paste that in instead.)
+                  <div class="term__body">
+                    <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
+                    <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
                   </div>
-                </li>
-                <li>
-                  <h4>Run the installer</h4>
-                  <p>
-                    Open <strong>PowerShell</strong> (the normal one — no administrator needed),
-                    then paste:
-                  </p>
-                  <div class="term">
-                    <div class="term__bar">
-                      <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                      <span class="term__title">PowerShell</span>
-                    </div>
-                    <div class="term__body">
-                      <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
-                      <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
-                    </div>
-                  </div>
-                  <p style="margin-top:10px;">
-                    It finds your OpenCode app and connects biopb to it automatically — nothing to
-                    configure by hand.
-                  </p>
-                </li>
-                <li>
-                  <h4>Open OpenCode and ask ✨</h4>
-                  <p style="margin:0;">
-                    No server to start — open OpenCode and ask it to load an image or run an
-                    analysis. OpenCode launches biopb on its own whenever it needs it.
-                  </p>
-                </li>
-              </ol>
-            </div>
-
-            <div class="note">
-              <strong>Curious what that command does?</strong> <code>irm … | iex</code> is just
-              PowerShell for “download our setup script and run it.” You can read it first at
-              <a href="https://biopb.org/install.ps1">biopb.org/install.ps1</a>.
-            </div>
-            <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
+                </div>
+                <p style="margin-top:10px;">
+                  It finds your OpenCode app and connects biopb to it automatically — nothing to
+                  configure by hand.
+                </p>
+              </li>
+              <li>
+                <h4>Open OpenCode and ask ✨</h4>
+                <p style="margin:0;">
+                  No server to start — open OpenCode and ask it to load an image or run an
+                  analysis. OpenCode launches biopb on its own whenever it needs it.
+                </p>
+              </li>
+            </ol>
           </div>
+
+          <div class="note">
+            <strong>Curious what that command does?</strong> <code>irm … | iex</code> is just
+            PowerShell for “download our setup script and run it.” You can read it first at
+            <a href="https://biopb.org/install.ps1">biopb.org/install.ps1</a>.
+          </div>
+          <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
+        </div>
+
+        <!-- ===== Troubleshooting ===== -->
+        <div class="faq">
+          <h3 class="faq__h">Troubleshooting 🔧</h3>
+          <p class="faq__lead">
+            Hit one of these? Here's the quick fix. Rerunning is always safe — the installer is
+            idempotent, so it just picks up where it left off.
+          </p>
+
+          <details class="faq__item">
+            <summary>Windows: “running scripts is disabled on this system”</summary>
+            <div class="faq__body">
+              <p>
+                Windows blocks PowerShell scripts by default. The simplest fix is to run the
+                installer with a one-time bypass — paste this into <strong>PowerShell</strong> (the
+                normal one, no administrator needed):
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">PowerShell</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">&gt;</span> powershell -ExecutionPolicy Bypass -c "irm https://biopb.org/install.ps1 | iex"</code>
+                  <button class="term__copy" type="button" data-cmd="powershell -ExecutionPolicy Bypass -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
+                </div>
+              </div>
+              <p style="margin-top:10px;">
+                Prefer to fix it for good? Allow signed scripts for your account once, then rerun the
+                normal one-liner:
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">PowerShell</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">&gt;</span> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>
+                  <button class="term__copy" type="button" data-cmd="Set-ExecutionPolicy -Scope CurrentUser RemoteSigned">Copy</button>
+                </div>
+              </div>
+              <div class="note">
+                On a work or school PC, a company Group Policy can override both of these. If scripts
+                are still blocked, ask your IT admin to allow them.
+              </div>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Windows: “tar not found”, or it tells you to update Windows</summary>
+            <div class="faq__body">
+              <p>
+                The installer relies on <code>tar</code>, which ships with <strong>Windows 10
+                version 1803 and newer</strong>. If you see this, your Windows is too old. Check your
+                version by pressing <kbd>⊞ Win</kbd>, typing <code>winver</code>, and hitting Enter —
+                then update to Windows 10 (1803+) or Windows 11 and rerun.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>macOS: the install stalls compiling <code>llvmlite</code>, or won't finish</summary>
+            <div class="faq__body">
+              <p>
+                You're most likely on an older macOS than the prebuilt wheels support. biopb needs
+                <strong>macOS 12 Monterey or newer</strong> on Apple Silicon (arm64), or
+                <strong>macOS 10.15 Catalina or newer</strong> on Intel (x86_64).
+              </p>
+              <p>
+                napari's optional <code>numba</code> accelerator pulls in <code>llvmlite</code>, whose
+                prebuilt wheels target those OS floors. On an older macOS there's no matching wheel,
+                so the installer falls back to compiling <code>llvmlite</code> from source — which
+                needs an LLVM toolchain and fails on a stock machine. Upgrading macOS is the fix;
+                there's no build workaround the installer can apply for you.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>“Unsupported OS” or “Unsupported architecture”</summary>
+            <div class="faq__body">
+              <p>
+                biopb installs on Linux, macOS, and Windows, running on 64-bit Intel/AMD
+                (<code>x86_64</code>) or ARM (<code>arm64</code>, including Apple Silicon). Older
+                32-bit machines aren't supported.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Linux: “curl: command not found”</summary>
+            <div class="faq__body">
+              <p>
+                Some minimal Linux images don't ship <code>curl</code>. Install it first, then rerun
+                the one-liner (on Debian/Ubuntu):
+              </p>
+              <div class="term">
+                <div class="term__bar">
+                  <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                  <span class="term__title">Terminal</span>
+                </div>
+                <div class="term__body">
+                  <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y curl</code>
+                  <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y curl">Copy</button>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>It installed, but <code>biopb</code> or my agent “isn't recognized”</summary>
+            <div class="faq__body">
+              <p>
+                The installer adds biopb to your PATH, but a terminal that was already open won't see
+                the change. Close that window, open a fresh one, and try again. If it still can't be
+                found, just rerun the installer — it's safe to run twice and will finish wiring
+                everything up.
+              </p>
+            </div>
+          </details>
         </div>
 
         <!-- ===== Help ===== -->

@@ -43,7 +43,7 @@ port (`8815`). Either:
   `BIOPB_TENSOR_TOKEN`), or
 - give your own server a free port. For the **containerized / HPC** server, set
   `BIOPB_BASE_PORT=9000` (HTTP becomes `BASE+4`, gRPC `BASE+5`). For a **local
-  `biopb server start`**, put a distinct gRPC `port` in your TOML config and pass a free
+  `biopb server start`**, put a distinct gRPC `port` in your JSON config and pass a free
   `--web-port`, then point clients at it with `BIOPB_TENSOR_URL`.
 
 Each user gets a private on-disk cache (`%TEMP%\biopb-cache-<username>` on Windows,
