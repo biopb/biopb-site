@@ -114,234 +114,119 @@
           <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
         </div>
 
-        <!-- ===== Windows: pick a route ===== -->
+        <!-- ===== Windows result ===== -->
         <div class="panel" id="panel-win" data-group="os">
-          <h2 class="panel__h">Windows: two solid routes. Pick your vibe. 🪟</h2>
+          <h2 class="panel__h">Windows: one quick extra step. 🪟</h2>
           <p>
-            Either way you'll install one thing yourself first — that's just how Windows rolls.
-            Choose the one that fits you:
+            On Windows you'll talk to biopb through a supported AI agent, and a one-line
+            installer wires biopb straight into it for you.
           </p>
 
-          <div class="choices" data-group="win">
-            <button class="choice" type="button" data-go="panel-wsl">
-              <span class="choice__icon" aria-hidden="true">🐧</span>
-              <span class="choice__title">Use WSL <span class="pill">Recommended</span></span>
-              <span class="choice__desc">Run a real Linux inside Windows, then install exactly like Mac/Linux. More setup, but the identical experience.</span>
+          <p class="step__q" style="font-size:1.05rem;">
+            Quick check — do you already use one of these agents?
+            <br><span style="font-weight:500;color:var(--ink-soft);font-size:0.95rem;">OpenCode, Claude Code, Cursor, or Hermes</span>
+          </p>
+          <div class="choices" data-group="agent">
+            <button class="choice" type="button" data-go="panel-native-have">
+              <span class="choice__icon" aria-hidden="true">✅</span>
+              <span class="choice__title">Yes, I've got one</span>
+              <span class="choice__desc">Great — we'll skip straight to wiring biopb into it.</span>
             </button>
-            <button class="choice" type="button" data-go="panel-native">
-              <span class="choice__icon" aria-hidden="true">💻</span>
-              <span class="choice__title">Stay native <span class="pill pill--soft">Experimental</span></span>
-              <span class="choice__desc">Stick to plain Windows and install with a click-through setup wizard. No Linux to learn.</span>
+            <button class="choice" type="button" data-go="panel-native-need">
+              <span class="choice__icon" aria-hidden="true">📥</span>
+              <span class="choice__title">Not yet</span>
+              <span class="choice__desc">No problem — we'll grab OpenCode, the free desktop app, first.</span>
             </button>
           </div>
 
-          <!-- WSL route -->
-          <div class="panel" id="panel-wsl" data-group="win">
-            <h3 class="panel__h" style="font-size:1.25rem;">The WSL route 🐧🪟</h3>
-            <p>
-              WSL (Windows Subsystem for Linux) lets Windows run a genuine Linux inside itself.
-              Set it up once, and biopb installs exactly like it does on Mac and Linux.
-            </p>
+          <!-- Already has an agent -->
+          <div class="panel" id="panel-native-have" data-group="agent">
             <ol class="steps">
               <li>
-                <h4>Turn on WSL</h4>
+                <h4>Run the installer</h4>
                 <p>
-                  Click Start, type “PowerShell”, then choose <strong>Run as administrator</strong>.
-                  In the blue window, paste:
+                  Open <strong>PowerShell</strong> (the normal one — no administrator needed),
+                  then paste:
                 </p>
                 <div class="term">
                   <div class="term__bar">
                     <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">PowerShell (Administrator)</span>
+                    <span class="term__title">PowerShell</span>
                   </div>
                   <div class="term__body">
-                    <code><span class="term__prompt">&gt;</span> wsl --install</code>
-                    <button class="term__copy" type="button" data-cmd="wsl --install">Copy</button>
-                  </div>
-                </div>
-                <p style="margin-top:10px;">Restart your PC when it asks you to.</p>
-              </li>
-              <li>
-                <h4>Set up Ubuntu</h4>
-                <p>
-                  After the restart, an Ubuntu window opens and asks you to pick a username and
-                  password. Choose anything you like — just remember them. (This is your new Linux
-                  account; the password won't show as you type, that's normal.)
-                </p>
-              </li>
-              <li>
-                <h4>Grab the basics</h4>
-                <p>
-                  A fresh Ubuntu doesn't ship with <code>curl</code>, so install it first (it'll
-                  ask for the password you just created — the typing stays hidden):
-                </p>
-                <div class="term">
-                  <div class="term__bar">
-                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">Ubuntu (WSL)</span>
-                  </div>
-                  <div class="term__body">
-                    <code><span class="term__prompt">$</span> sudo apt update && sudo apt install -y curl</code>
-                    <button class="term__copy" type="button" data-cmd="sudo apt update && sudo apt install -y curl">Copy</button>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <h4>Install biopb</h4>
-                <p>In that same Ubuntu window, paste the one-liner everyone else uses:</p>
-                <div class="term">
-                  <div class="term__bar">
-                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-                    <span class="term__title">Ubuntu (WSL)</span>
-                  </div>
-                  <div class="term__body">
-                    <code><span class="term__prompt">$</span> curl -fsSL https://biopb.org/install.sh | bash</code>
-                    <button class="term__copy" type="button" data-cmd="curl -fsSL https://biopb.org/install.sh | bash">Copy</button>
+                    <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
+                    <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
                   </div>
                 </div>
                 <p style="margin-top:10px;">
-                  Partway through, it'll pause to help you set up a free <strong>OpenCode Zen</strong>
-                  account — just follow the prompt (no credit card, free models included) and paste
-                  the key back when it asks.
+                  It finds your agent — OpenCode, Claude Code, Cursor, or Hermes — and connects
+                  biopb to it automatically. Nothing to configure by hand.
                 </p>
               </li>
               <li>
                 <h4>Open your agent and ask ✨</h4>
                 <p style="margin:0;">
-                  No server to start — open your AI agent and ask it to load an image or run an
+                  No server to start — open your agent and ask it to load an image or run an
                   analysis. Your agent launches biopb on its own whenever it needs it.
                 </p>
               </li>
             </ol>
-            <div class="note">
-              <strong>Stuck on the WSL step?</strong> Microsoft's short
-              <a href="https://learn.microsoft.com/windows/wsl/install">WSL install guide</a>
-              walks through it with screenshots.
-            </div>
-            <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
           </div>
 
-          <!-- Native route: GUI installer -->
-          <div class="panel" id="panel-native" data-group="win">
-            <h3 class="panel__h" style="font-size:1.25rem;">The installer app 🖱️</h3>
-            <p>
-              Stay on plain Windows with a normal setup wizard: download one file, click through,
-              done. It installs just for you (no administrator needed) and wires biopb into your AI
-              agent for you.
-            </p>
-
-            <div class="note note--warn">
-              <strong>Heads-up: the installer isn't code-signed yet, so Windows will try to stop
-              you.</strong> These warnings are expected — you'll need to click past each one:
-              <ul>
-                <li>Your browser may flag the download (“<em>biopb-setup… isn't commonly
-                  downloaded</em>”). Choose <strong>Keep</strong> → <strong>Keep anyway</strong>.</li>
-                <li>When you run it, <strong>Windows SmartScreen</strong> shows “<em>Windows
-                  protected your PC</em>” with an <em>Unknown publisher</em>. Click
-                  <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
-              </ul>
-              We're working on a signing certificate to remove these. Until then you can verify the
-              file against the <code>SHA256SUMS</code> published with each
-              <a href="https://github.com/biopb/biopb/releases/latest">release</a>.
-            </div>
-
-            <p class="step__q" style="font-size:1.05rem;">
-              Quick check — do you already use one of these agents?
-              <br><span style="font-weight:500;color:var(--ink-soft);font-size:0.95rem;">OpenCode, Claude Code, Cursor, or Hermes</span>
-            </p>
-            <div class="choices" data-group="agent">
-              <button class="choice" type="button" data-go="panel-native-have">
-                <span class="choice__icon" aria-hidden="true">✅</span>
-                <span class="choice__title">Yes, I've got one</span>
-                <span class="choice__desc">Great — the installer will wire biopb straight into it.</span>
-              </button>
-              <button class="choice" type="button" data-go="panel-native-need">
-                <span class="choice__icon" aria-hidden="true">📥</span>
-                <span class="choice__title">Not yet</span>
-                <span class="choice__desc">No problem — we'll grab OpenCode, the free desktop app, first.</span>
-              </button>
-            </div>
-
-            <!-- Native: already has an agent -->
-            <div class="panel" id="panel-native-have" data-group="agent">
-              <ol class="steps">
-                <li>
-                  <h4>Download the installer</h4>
-                  <p>
-                    Download it directly:
-                    <a class="js-exe-link" href="https://github.com/biopb/biopb/releases"><strong>biopb-setup.exe</strong></a>
-                    (links straight to the installer for the newest release). Click past your
-                    browser's download warning as noted above.
-                  </p>
-                </li>
-                <li>
-                  <h4>Run it and click past the warning</h4>
-                  <p>
-                    Double-click the file. At the SmartScreen “Unknown publisher” screen, choose
-                    <strong>More info → Run anyway</strong>, then follow the wizard. No administrator
-                    prompt — it installs just for you, finds your agent and connects biopb to it
-                    automatically, and downloads and sets everything up (a few minutes).
-                  </p>
-                </li>
-                <li>
-                  <h4>Open your agent and ask ✨</h4>
-                  <p style="margin:0;">
-                    No server to start — open your agent and ask it to load an image or run an
-                    analysis. Your agent launches biopb on its own whenever it needs it.
-                  </p>
-                </li>
-              </ol>
-            </div>
-
-            <!-- Native: needs an agent -->
-            <div class="panel" id="panel-native-need" data-group="agent">
-              <ol class="steps">
-                <li>
-                  <h4>Install the OpenCode desktop app first</h4>
-                  <p>
-                    Download OpenCode for Windows from
-                    <a href="https://opencode.ai/download">opencode.ai/download</a> and run the
-                    Windows installer (next-next-finish). This is the free chat app you'll talk to
-                    biopb through — install it <strong>before</strong> biopb so the biopb installer
-                    can find it and wire itself in.
-                  </p>
-                  <div class="note">
-                    <strong>On first launch it'll ask you to connect an AI model.</strong> Choose
-                    <strong>OpenCode Zen</strong> and create a free account — no credit card needed,
-                    and it comes with a few free models to get you started. (Already have an
-                    Anthropic or OpenAI key? You can paste that in instead.)
+          <!-- Needs an agent -->
+          <div class="panel" id="panel-native-need" data-group="agent">
+            <ol class="steps">
+              <li>
+                <h4>Install the OpenCode desktop app</h4>
+                <p>
+                  Download OpenCode for Windows from
+                  <a href="https://opencode.ai/download">opencode.ai/download</a> and run the Windows installer
+                  (next-next-finish). This is the free chat app you'll talk to biopb through.
+                </p>
+                <div class="note">
+                  <strong>On first launch it'll ask you to connect an AI model.</strong> Choose
+                  <strong>OpenCode Zen</strong> and create a free account — no credit card needed,
+                  and it comes with a few free models to get you started. (Already have an
+                  Anthropic or OpenAI key? You can paste that in instead.)
+                </div>
+              </li>
+              <li>
+                <h4>Run the installer</h4>
+                <p>
+                  Open <strong>PowerShell</strong> (the normal one — no administrator needed),
+                  then paste:
+                </p>
+                <div class="term">
+                  <div class="term__bar">
+                    <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
+                    <span class="term__title">PowerShell</span>
                   </div>
-                </li>
-                <li>
-                  <h4>Download the installer</h4>
-                  <p>
-                    Download it directly:
-                    <a class="js-exe-link" href="https://github.com/biopb/biopb/releases"><strong>biopb-setup.exe</strong></a>
-                    (links straight to the installer for the newest release). Click past your
-                    browser's download warning as noted above.
-                  </p>
-                </li>
-                <li>
-                  <h4>Run it and click past the warning</h4>
-                  <p>
-                    Double-click the file. At the SmartScreen “Unknown publisher” screen, choose
-                    <strong>More info → Run anyway</strong>, then follow the wizard. It installs
-                    per-user (no administrator prompt), finds your OpenCode app and connects biopb
-                    to it automatically, and downloads and sets everything up (a few minutes).
-                  </p>
-                </li>
-                <li>
-                  <h4>Open OpenCode and ask ✨</h4>
-                  <p style="margin:0;">
-                    No server to start — open OpenCode and ask it to load an image or run an
-                    analysis. OpenCode launches biopb on its own whenever it needs it.
-                  </p>
-                </li>
-              </ol>
-            </div>
-
-            <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
+                  <div class="term__body">
+                    <code><span class="term__prompt">&gt;</span> powershell -c "irm https://biopb.org/install.ps1 | iex"</code>
+                    <button class="term__copy" type="button" data-cmd="powershell -c &quot;irm https://biopb.org/install.ps1 | iex&quot;">Copy</button>
+                  </div>
+                </div>
+                <p style="margin-top:10px;">
+                  It finds your OpenCode app and connects biopb to it automatically — nothing to
+                  configure by hand.
+                </p>
+              </li>
+              <li>
+                <h4>Open OpenCode and ask ✨</h4>
+                <p style="margin:0;">
+                  No server to start — open OpenCode and ask it to load an image or run an
+                  analysis. OpenCode launches biopb on its own whenever it needs it.
+                </p>
+              </li>
+            </ol>
           </div>
+
+          <div class="note">
+            <strong>Curious what that command does?</strong> <code>irm … | iex</code> is just
+            PowerShell for “download our setup script and run it.” You can read it first at
+            <a href="https://biopb.org/install.ps1">biopb.org/install.ps1</a>.
+          </div>
+          <p><button class="startover" type="button" data-reset>↺ Start over</button></p>
         </div>
 
         <!-- ===== Help ===== -->
@@ -473,37 +358,6 @@
       // --- Current year ---
       var y = document.getElementById('year');
       if (y) y.textContent = new Date().getFullYear();
-
-      // --- Resolve the direct Windows installer (.exe) download link ---
-      // The installer is a versioned release asset (biopb-setup-<version>.exe), so
-      // there's no fixed URL. Ask the GitHub API for the newest release that ships
-      // one and point the link straight at that asset. If the fetch fails (offline,
-      // rate-limited, API change), the links keep their fallback href — the
-      // releases page — so they always work.
-      var exeLinks = document.querySelectorAll('.js-exe-link');
-      if (exeLinks.length && window.fetch) {
-        fetch('https://api.github.com/repos/biopb/biopb/releases?per_page=20', {
-          headers: { 'Accept': 'application/vnd.github+json' }
-        })
-          .then(function (r) { return r.ok ? r.json() : null; })
-          .then(function (releases) {
-            if (!releases || !releases.length) return;
-            for (var i = 0; i < releases.length; i++) {
-              if (releases[i].prerelease) continue;   // skip rc / pre-releases
-              var assets = releases[i].assets || [];
-              for (var j = 0; j < assets.length; j++) {
-                if (/^biopb-setup-.*\.exe$/.test(assets[j].name)) {
-                  exeLinks.forEach(function (a) {
-                    a.href = assets[j].browser_download_url;
-                    a.innerHTML = '<strong>' + assets[j].name + '</strong>';
-                  });
-                  return;
-                }
-              }
-            }
-          })
-          .catch(function () { /* keep the fallback href */ });
-      }
     })();
   </script>
 </body>
