@@ -1,2 +1,4 @@
 # Documentation toolchain for biopb.org/docs (built in CI, see .github/workflows/deploy.yml)
 mkdocs-material==9.5.49
+# Skill catalog builder/validator (scripts/build_skills_catalog.py); stdlib otherwise.
+PyYAML==6.0.2
