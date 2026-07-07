@@ -118,8 +118,8 @@
         <div class="panel" id="panel-win" data-group="os">
           <h2 class="panel__h">Windows: one quick extra step. 🪟</h2>
           <p>
-            On Windows you'll talk to biopb through a supported AI agent, and a one-line
-            installer wires biopb straight into it for you.
+            BioPB supports several popular agent interfaces (the chat window). It's best to
+            install one of these first, so BioPB knows which one to wire up.
           </p>
 
           <p class="step__q" style="font-size:1.05rem;">
@@ -221,7 +221,7 @@
             </ol>
           </div>
 
-          <div class="note">
+          <div class="note" data-reveal-on="agent">
             <strong>Curious what that command does?</strong> <code>irm … | iex</code> is just
             PowerShell for “download our setup script and run it.” You can read it first at
             <a href="https://biopb.org/install.ps1">biopb.org/install.ps1</a>.
@@ -426,10 +426,12 @@
         // collapse anything revealed inside, so reopening starts fresh
         panel.querySelectorAll('.panel').forEach(function (p) { p.hidden = true; });
         panel.querySelectorAll('.choice.is-active').forEach(function (c) { c.classList.remove('is-active'); });
+        panel.querySelectorAll('[data-reveal-on]').forEach(function (n) { n.hidden = true; });
       }
 
       // Start collapsed (only when JS runs).
       panels.forEach(function (p) { p.hidden = true; });
+      document.querySelectorAll('[data-reveal-on]').forEach(function (n) { n.hidden = true; });
 
       document.querySelectorAll('.choice[data-go]').forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -449,6 +451,11 @@
             } else {
               hide(p);
             }
+          });
+
+          // reveal notes that should appear once this group's choice is made
+          document.querySelectorAll('[data-reveal-on="' + group + '"]').forEach(function (n) {
+            n.hidden = false;
           });
         });
       });
