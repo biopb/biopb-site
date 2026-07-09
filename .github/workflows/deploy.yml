@@ -37,11 +37,18 @@ jobs:
         run: |
           # The single --exclude='docs/' both skips uploading the Markdown source and
           # shields the deployed /docs/ directory from --delete.
+          #
+          # --exclude='install/' shields /install/, another subtree owned by a
+          # SEPARATE pipeline: the biopb repo's install-scripts workflow rsyncs
+          # install.sh / install.ps1 / biopb-engine.ps1 there (served at
+          # biopb.org/install.sh etc. via nginx). This repo never ships them, so
+          # without the exclude a push-to-main deploy here would wipe them.
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='*.mp4' \
             --exclude='docs/' \
+            --exclude='install/' \
             --exclude='site/' \
             --exclude='mkdocs.yml' \
             --exclude='requirements-docs.txt' \
