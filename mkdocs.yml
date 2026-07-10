@@ -8,6 +8,14 @@ edit_uri: ""
 # Built by CI into ./site, then rsynced to /var/www/biopb.org/docs/ (gitignored).
 site_dir: site
 
+# skills.md is deliberately served-but-unlinked: the page ships (reachable at
+# /docs/skills/) while its nav entry is held back until the skills catalog is
+# advertised (docs/skill-interface.md §8.2). Declaring it here keeps --strict
+# from failing on "exists but not in nav". To advertise it, add a nav entry
+# under Using biopb and drop this line.
+not_in_nav: |
+  skills.md
+
 theme:
   name: material
   logo: assets/logo.png
