@@ -1,7 +1,8 @@
 name: Docs build check
 
-# Validates the docs build on pull requests, without deploying or touching
-# secrets. The Deploy workflow builds + ships only on push to main.
+# Validates the docs build AND the skills catalog on pull requests, without
+# deploying or touching secrets. The Deploy workflow builds + ships only on
+# push to main.
 on:
   pull_request:
 
@@ -17,7 +18,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install docs toolchain
+        run: pip install -r requirements-docs.txt
+
+      - name: Validate skills catalog
+        # The curation gate (docs/skill-interface.md §2, §8.1): malformed
+        # frontmatter, duplicate ids, unknown tags, bad semver -> fail the PR,
+        # so the AUTHOR sees the error, never the runtime agent. --check does
+        # not write catalog.json (that happens only on deploy).
+        run: python scripts/build_skills_catalog.py --check
+
       - name: Build docs (strict)
-        run: |
-          pip install -r requirements-docs.txt
-          mkdocs build --strict
+        run: mkdocs build --strict

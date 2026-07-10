@@ -15,6 +15,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history: build_skills_catalog.py derives each skill's `updated`
+          # date from `git log -1 -- <file>`. A shallow (depth-1) clone only has
+          # HEAD, so any skill not touched in the latest commit would fall back
+          # to today's date. See docs/skill-interface.md §5.1.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -25,6 +31,12 @@ jobs:
         run: |
           pip install -r requirements-docs.txt
           mkdocs build --strict   # outputs to ./site
+
+      - name: Build skills catalog
+        # Generate skills/catalog.json in-tree BEFORE the landing rsync below,
+        # which uploads repo root (catalog.json is gitignored; the source of
+        # truth is skills/*.md). docs/skill-interface.md §2, §8.2.
+        run: python scripts/build_skills_catalog.py
 
       - name: Set up SSH key
         run: |
@@ -43,9 +55,17 @@ jobs:
           # install.sh / install.ps1 / biopb-engine.ps1 there (served at
           # biopb.org/install.sh etc. via nginx). This repo never ships them, so
           # without the exclude a push-to-main deploy here would wipe them.
+          #
+          # --exclude='scripts/' keeps the skills-catalog build tooling
+          # (build_skills_catalog.py, skill_schema.py) out of the public web
+          # root -- only its OUTPUT, skills/catalog.json, is meant to ship.
+          # --exclude='.claude' keeps local agent config (settings.local.json)
+          # from leaking to biopb.org.
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='.github' \
+            --exclude='.claude' \
+            --exclude='scripts/' \
             --exclude='*.mp4' \
             --exclude='docs/' \
             --exclude='install/' \
