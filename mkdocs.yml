@@ -47,6 +47,21 @@ extra:
   # "Back to biopb.org" — the landing page lives one level up from /docs/.
   homepage: https://biopb.org/
 
+plugins:
+  # Declaring plugins: disables the implicit default 'search' plugin, so we must
+  # list it back explicitly.
+  - search
+  # Auto-generates per-page Open Graph / Twitter link-preview cards from each
+  # page's title + description (uses site_url for the canonical og:url). Needs
+  # Pillow + CairoSVG (see requirements-docs.txt) and cairo/pango system libs,
+  # installed in .github/workflows/deploy.yml before `mkdocs build`.
+  - social:
+      # The theme uses the system font stack (theme.font.text: false), which the
+      # social plugin can't rasterize — pin an explicit card font (fetched from
+      # Google Fonts at build time; CI has network).
+      cards_layout_options:
+        font_family: Roboto
+
 markdown_extensions:
   - admonition
   - attr_list

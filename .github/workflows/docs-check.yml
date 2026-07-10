@@ -18,6 +18,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install cairo/pango (mkdocs social plugin)
+        # The Material 'social' plugin (mkdocs.yml) renders OG cards via
+        # Pillow + CairoSVG, which need these native libs. Keep in sync with
+        # the same step in deploy.yml.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev \
+            libjpeg-dev libpng-dev libz-dev libpango1.0-dev
+
       - name: Install docs toolchain
         run: pip install -r requirements-docs.txt
 

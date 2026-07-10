@@ -1,4 +1,8 @@
 # Documentation toolchain for biopb.org/docs (built in CI, see .github/workflows/deploy.yml)
 mkdocs-material==9.5.49
+# Social-card plugin deps (mkdocs.yml plugins: social) — render OG images.
+# Requires cairo/pango system libs too, apt-installed in the deploy workflow.
+Pillow==11.0.0
+CairoSVG==2.7.1
 # Skill catalog builder/validator (scripts/build_skills_catalog.py); stdlib otherwise.
 PyYAML==6.0.2
