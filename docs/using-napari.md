@@ -46,6 +46,62 @@ You don't have to go through the agent for everything. The Data Browser and napa
 a normal viewer, so you can open data, pan and zoom, and inspect layers directly whenever you
 like. The agent is there for the analysis you'd rather describe than click through.
 
+You can go further: run the whole viewer yourself with no agent attached, and extend it with
+your own napari plugins.
+
+### Starting the viewer without an agent
+
+Normally your agent starts biopb and brings up napari for you. You can do the same by hand —
+useful when you just want to browse data, or when no agent is running.
+
+1. **Start the biopb daemon.** In a terminal, run:
+
+    ```bash
+    biopb-mcp --transport http
+    ```
+
+    This starts biopb's local service and the [observe page](observe.md) on its port
+    (default `8765`), and keeps running in that terminal. It does *not* open napari yet — the
+    Python kernel that hosts the viewer doesn't start on its own. (If biopb is already running
+    from an earlier agent session, skip this step.)
+
+2. **Open the observe page** at
+   [`http://127.0.0.1:8765/observe`](http://127.0.0.1:8765/observe).
+
+3. **Start the kernel.** Click **Restart kernel** in the page header. That spins up the Python
+   kernel, which brings up the napari window with the Data Browser attached — the same viewer
+   an agent would drive, only there's no agent on the other end.
+
+From here napari is entirely yours: open sources from the Data Browser, edit layers, save
+results. If you later connect an agent to the same daemon, it shares this exact viewer.
+
+### Adding your own napari plugins
+
+biopb installs everything into a single, isolated environment (a [`uv`](https://docs.astral.sh/uv/)
+tool named `biopb`), so a plugin you `pip install` into your system Python won't be visible to
+the viewer. Install it into biopb's own environment instead:
+
+=== "Linux / macOS"
+
+    ```bash
+    uv pip install --python "$(uv tool dir)/biopb/bin/python" <napari-plugin>
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    uv pip install --python "$(uv tool dir)\biopb\Scripts\python.exe" <napari-plugin>
+    ```
+
+For example, swap `<napari-plugin>` for `napari-animation`. Then **restart the kernel** (observe
+page → *Restart kernel*, or just ask your agent) so napari re-scans its plugins — the new one
+appears under napari's **Plugins** menu.
+
+!!! note "Upgrades reset the environment"
+    Upgrading or reinstalling biopb re-syncs this environment to biopb's own package list, so
+    manually added plugins are dropped. Re-run the `uv pip install` above after an upgrade to
+    bring them back.
+
 !!! note "The detection/processing widgets are developer tools"
     The napari that comes with biopb also ships a couple of algorithm widgets. These are useful
     for people who want to test their own deployment of [algorithm servers](algorithm-servers.md) — for
