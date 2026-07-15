@@ -1,33 +1,18 @@
 # Working with the dashboard
 
-The **dashboard** is biopb's one web page. It's where you see what your agent is running,
-check that your data server is healthy, browse your images, and connect biopb to a new agent
-— all from a single address.
+The **dashboard** shows you all sub-components of biopb, and allows you to:
 
-It's served by the [control plane](concepts.md#the-control-plane), which is also what keeps
-your data server alive. You never have to open it to get work done: the dashboard is a window
-onto the machinery, not a step in the workflow.
+- [**observe your agent**](#watching-your-agent): lets *you* watch what the agent runs, step in when something goes
+wrong, and save the whole session as a notebook for the record.
+- [**change biopb settings**](#changing-biopb-settings): edit/rewrite the config file of biopb or restart the data server
+with a new configuration
+- [**view data**](#viewing-your-data): see your microscopy data via a web interface without connecting to an agent
+or start napari
 
 ## Opening it
 
-```bash
-biopb dashboard
-```
-
-That makes sure the control plane is running and opens the page in your browser. It's safe to
-run any time — if everything is already up, it just opens the page.
-
-If it's already running, browse straight to it:
-
-```
-http://127.0.0.1:8813/
-```
-
-!!! note "Local by default"
-    On a normal install every listener binds loopback (`127.0.0.1`), and there's no login
-    because there's no remote access. If you started the control plane with a token — or with
-    `--remote`, which requires one — you'll unlock the dashboard first. See
-    [Security](data-servers.md#security).
+Open `biopb dashboard` like any other app on your desktop, or, if you are a terminal user, run 
+`biopb dashboard` in your terminal
 
 ## What's on it
 
@@ -38,57 +23,21 @@ Four panels, each covering one piece of the system.
   <figcaption>The dashboard: the data plane and its controls, the algorithm servers your agent can reach, which agents biopb is registered with, and every live session with a link to watch it.</figcaption>
 </figure>
 
-### Data plane
-
-The health of your [data server](data-servers.md): a status badge, its gRPC and web
-addresses, its process id, and how many times the control plane has had to restart it. If it
-last failed, the error is shown here.
-
-Three buttons drive it:
-
-- **Ensure up** — start it if it isn't running. Harmless if it already is.
-- **Restart** — bounce it.
-- **Stop** — shut it down. Clients lose the data server until something asks for it again.
-
-From here you can also jump to **View Data** (the image viewer), **Config** (the server's admin
-page), and **Logs**.
-
-### Algorithm plane
-
-A read-only list of the [algorithm servers](algorithm-servers.md) your agent can reach, with
-a live health probe and the operations each one offers. If you haven't configured any, it
-says so.
-
-This panel only *reports*. Algorithm servers are started and stopped where they run — usually
-a GPU box or a container — not from here.
-
-### Agent clients
-
-Which agents biopb is registered with, and a button to register or unregister each one. Agents
-you don't have are listed as *not installed* and left alone. This is the same job as
-`biopb agents register` on the command line.
-
-!!! tip "Restart the agent afterwards"
-    A client only picks up the change when it restarts, so quit and reopen Claude Code,
-    Cursor, or whichever you just registered.
-
-### Agent sessions
-
-Every live agent session, with the port it's on, when it started, its kernel state
-(`kernel: ready` once the viewer is up, `no kernel` for a session that hasn't started one),
-and an **observe →** link. Each session is one agent's viewer and Python kernel — two agents
-means two rows here, not one shared session.
-
-Click **observe →** to open that session's view, which is the rest of this page.
+- **Data plane** — your [data server](data-servers.md)'s health and the buttons that drive it.
+  **Ensure up** starts it if it isn't running (harmless if it already is), **Restart** bounces
+  it, and **Stop** leaves clients without data until something asks for it again. **Logs →**
+  opens its output, so you don't have to go digging through files.
+- **Algorithm plane** — the [algorithm servers](algorithm-servers.md) your agent can reach,
+  with a live health probe. Read-only: algorithm servers are started and stopped where they
+  run, usually a GPU box or a container, not from here.
+- **Agent clients** — register or unregister biopb with each agent; the same job as
+  `biopb agents register`. Agents you don't have are listed as *not installed* and left alone.
+  **Restart the client afterwards**, or it won't pick up the change.
+- **Agent sessions** — every live session, its kernel state, and an **observe →** link. Each
+  session is one agent's *own* viewer and kernel, so two agents means two rows here, not one
+  shared session.
 
 ## Watching your agent
-
-When your agent runs code through biopb, that code executes in a live Python kernel with full
-access to your data and viewer. The **observe** view lets *you* watch what the agent runs,
-step in when something goes wrong, and save the whole session as a notebook for the record.
-It's **on by default**.
-
-### Why it's there
 
 An agent is a powerful but opaque collaborator. It writes and runs real Python on your
 machine — segmentations, measurements, file reads — and most of the time you only see
@@ -193,31 +142,37 @@ to your results, attach it to a paper's supplement, or hand it to a colleague to
     same failure, so skip or edit it. Only the most recent jobs are retained, so a very
     long session may be missing its earliest steps.
 
-### Turning it off
+## Changing biopb settings
 
-The observe view is on by default. To disable it, set `observe.enabled` to `false`
-in your [config file](configuration.md):
+biopb keeps two [config files](configuration.md), and the dashboard gives each one an editor
+so you don't have to hand-edit JSON:
 
-```json
-{
-  "observe": {
-    "enabled": false
-  }
-}
-```
+- **Config →**, on the data plane panel, edits the **data server**'s settings — where your
+  data lives, the cache, the ports. This is `biopb.json`.
+- **MCP Settings**, at the top right, edits **biopb-mcp**'s settings — the kernel, dask, and
+  the algorithm servers your agent can reach. This is `mcp-config.json`.
 
-Two other knobs under `observe` tune it: `max_output_chars` (how much of a job's
-output the detail view shows, default `20000`) and `poll_interval_ms` (how often the
-page refreshes, default `3000`).
+Both work the same way: change a value, then **Save**. The page tells you when you have
+unsaved changes, and refuses a value it can't accept rather than writing a broken file.
 
-## The other pages
+The data server reads its config at startup, so changes there take effect on the next
+**Restart** — the editor offers one, and the data plane panel has the same button. Editing
+settings won't silently restart anything under your agent.
 
-Everything the control plane serves lives under the same address, so these are all one click
-away — and all reachable from the dashboard:
+!!! tip "The same values, either way"
+    These editors and the config files are two doors onto the same settings. If you'd rather
+    edit the files directly, [Configuration](configuration.md) documents the keys and where
+    the files live.
 
-| Page | What it's for |
-|------|---------------|
-| [`/viewer`](http://127.0.0.1:8813/viewer) | Browse your image data in the web viewer. |
-| [`/admin`](http://127.0.0.1:8813/admin) | The data server's admin page — sources, cache, config. |
-| [`/logs`](http://127.0.0.1:8813/logs) | The data plane's log output, without digging through files. |
-| [`/mcp/admin`](http://127.0.0.1:8813/mcp/admin) | biopb-mcp's settings, the same ones in [`mcp-config.json`](configuration.md). |
+## Viewing your data
+
+**View Data →**, on the data plane panel, opens biopb's web viewer. It lists the sources your
+data server is serving and lets you open and page through them in the browser.
+
+It's the quickest way to check that your data is where you think it is, and what's actually in
+it — no agent, no napari, no waiting for a kernel to boot. The server renders the slice you're
+looking at and sends back just that picture, so even a dataset far larger than your machine
+opens immediately and your browser never downloads the pixels.
+
+For real work — layers, editing, plugins, and a canvas you share with your agent — use
+[napari](using-napari.md) instead.
