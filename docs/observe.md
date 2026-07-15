@@ -5,7 +5,8 @@ with full access to your data and viewer. The **observe page** is a small web UI
 lets *you* watch what the agent runs, step in when something goes wrong, and save the
 whole session as a notebook for the record.
 
-It runs locally, on the same port as biopb, and is **on by default**.
+It's served by biopb's [control plane](concepts.md#the-control-plane) alongside the dashboard,
+and is **on by default**.
 
 ## Why it's there
 
@@ -33,25 +34,25 @@ agent work over one session — applied to the *code* the agent runs rather than
 
 ## Opening it
 
-The page lives at `/observe` on biopb's local port (default `8765`):
+Each agent session gets its own observe page. Open the **dashboard** at
 
 ```
-http://127.0.0.1:8765/observe
+http://127.0.0.1:8813/
 ```
 
-If you're not sure of the port, ask your agent to run **`server_status`** — it reports
-the observe URL (along with kernel and system health) under an **Observe** heading:
+and click the session you want under **Agent sessions**. That takes you to
+`/session/<session-id>/observe`.
 
-```
-## Observe
-  url: http://127.0.0.1:8765/observe
-  mode: mounted on the MCP app (http)
-```
+There's no fixed URL to bookmark: every session runs on its own dynamically assigned port,
+and the control plane is what knows where each one lives. Going through the dashboard is how
+you find them. You can also ask your agent to run **`server_status`**, which reports the
+observe URL for its own session.
 
-!!! note "Local only"
-    The page is bound to loopback (`127.0.0.1`) and guarded by the same Host/Origin
-    checks as biopb itself. It's reachable only from your own machine — there is no
-    login because there is no remote access. Don't expose biopb's port to a network.
+!!! note "Local by default"
+    On a normal install every listener binds loopback (`127.0.0.1`), and there's no login
+    because there's no remote access. If you started the control plane with a token — or with
+    `--remote`, which requires one — you'll unlock the dashboard first. See
+    [Security](data-servers.md#security).
 
 ## Reading the job list
 
@@ -126,19 +127,17 @@ to your results, attach it to a paper's supplement, or hand it to a colleague to
 
 ## Turning it off
 
-The observe page is on by default. To disable it, set `mcp.observe.enabled` to `false`
+The observe page is on by default. To disable it, set `observe.enabled` to `false`
 in your [config file](configuration.md):
 
 ```json
 {
-  "mcp": {
-    "observe": {
-      "enabled": false
-    }
+  "observe": {
+    "enabled": false
   }
 }
 ```
 
-Two other knobs under `mcp.observe` tune it: `max_output_chars` (how much of a job's
+Two other knobs under `observe` tune it: `max_output_chars` (how much of a job's
 output the detail view shows, default `20000`) and `poll_interval_ms` (how often the
 page refreshes, default `3000`).

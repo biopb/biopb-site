@@ -2,7 +2,7 @@
 """Normalize, validate, and index skills/*.md into skills/catalog.json.
 
 This is the single choke point for skill-file format variation
-(docs/skill-interface.md §5): tolerant read -> strict, canonical, versioned emit.
+(biopb-mcp/docs/skill-interface.md §5): tolerant read -> strict, canonical, versioned emit.
 
 Usage:
     python scripts/build_skills_catalog.py            # generate skills/catalog.json

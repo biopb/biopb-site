@@ -39,15 +39,13 @@ docker run --gpus=all -p 50051:50051 jiyuuchc/cellpose --token
 docker run --gpus=all -p 50051:50051 jiyuuchc/cellpose --no-token --debug
 ```
 
-Once it's running, update your biopb-mcp config file, i.e., `~/.config/biopb-mcp/config.json`,
-and add its URL to the `mcp.services.process_image_servers` list:
+Once it's running, update your biopb-mcp config file, i.e., `~/.config/biopb/mcp-config.json`,
+and add its URL to the `services.process_image_servers` list:
 
 ```json
 {
-  "mcp": {
-    "services": {
-      "process_image_servers": ["grpc://your-server:50051"]
-    }
+  "services": {
+    "process_image_servers": ["grpc://your-server:50051"]
   }
 }
 ```
