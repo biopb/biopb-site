@@ -9,13 +9,21 @@ version.
 
 For the impatient, here's the command:
 
-```bash
-curl -fsSL https://biopb.org/install.sh | bash
-```
+=== "Linux / macOS"
+
+    ```bash
+    curl -fsSL https://biopb.org/install.sh | bash
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    irm https://biopb.org/install.ps1 | iex
+    ```
 
 For the rest, go to the [interactive install guide](https://biopb.org/install.html) and follow either route.
 
-!!! tip "What does `curl … | bash` do?"
+!!! tip "What does `curl … | bash` (or `irm … | iex`) do?"
     It downloads the setup script and runs it. You can read exactly what it does first — it's
     plain text at [biopb.org/install.sh](https://biopb.org/install.sh) (and
     [install.ps1](https://biopb.org/install.ps1) for Windows).

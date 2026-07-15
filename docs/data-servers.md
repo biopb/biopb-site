@@ -29,10 +29,19 @@ The Data Browser (and your agent) resolve the server URL in this order:
 To point biopb at an existing server, set the environment variable before launching your
 agent or napari:
 
-```bash
-export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
-export BIOPB_TENSOR_TOKEN=your_secure_token
-```
+=== "Linux / macOS"
+
+    ```bash
+    export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
+    export BIOPB_TENSOR_TOKEN=your_secure_token
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    $env:BIOPB_TENSOR_URL = "grpc://lab-data.example.org:8815"
+    $env:BIOPB_TENSOR_TOKEN = "your_secure_token"
+    ```
 
 ### Auto-starting a local server
 
@@ -47,14 +56,27 @@ connect directly to whatever `BIOPB_TENSOR_URL` (or the saved config) points at.
 
 The simplest way to run a server is the published Docker image:
 
-```bash
-docker run -d --rm \
-    --name biopb-tensor \
-    -p 8813:8813 -p 8815:8815 \
-    -v /path/to/your/data:/data \
-    -e BIOPB_TENSOR_TOKEN=your_secure_token \
-    jiyuuchc/biopb-tensor-server:latest
-```
+=== "Linux / macOS"
+
+    ```bash
+    docker run -d --rm \
+        --name biopb-tensor \
+        -p 8813:8813 -p 8815:8815 \
+        -v /path/to/your/data:/data \
+        -e BIOPB_TENSOR_TOKEN=your_secure_token \
+        jiyuuchc/biopb-tensor-server:latest
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    docker run -d --rm `
+        --name biopb-tensor `
+        -p 8813:8813 -p 8815:8815 `
+        -v C:\path\to\your\data:/data `
+        -e BIOPB_TENSOR_TOKEN=your_secure_token `
+        jiyuuchc/biopb-tensor-server:latest
+    ```
 
 - Port **8813** is the web origin — the dashboard, viewer, and admin pages. Port **8815** is
   the gRPC/Flight data API, for SDK clients.

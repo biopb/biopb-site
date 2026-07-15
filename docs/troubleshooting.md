@@ -14,10 +14,19 @@ The Data Browser resolves the server URL in this order:
 If you expected a remote server, make sure `BIOPB_TENSOR_URL` is set **before** you launch
 your agent or napari:
 
-```bash
-export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
-export BIOPB_TENSOR_TOKEN=your_secure_token
-```
+=== "Linux / macOS"
+
+    ```bash
+    export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
+    export BIOPB_TENSOR_TOKEN=your_secure_token
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    $env:BIOPB_TENSOR_URL = "grpc://lab-data.example.org:8815"
+    $env:BIOPB_TENSOR_TOKEN = "your_secure_token"
+    ```
 
 ## A local server won't auto-start
 

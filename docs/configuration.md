@@ -15,10 +15,24 @@ most likely to touch — chiefly which data server to use and where things live 
 
 Set these before launching your agent or napari, for example:
 
-```bash
-export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
-export BIOPB_TENSOR_TOKEN=your_secure_token
-```
+=== "Linux / macOS"
+
+    ```bash
+    export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
+    export BIOPB_TENSOR_TOKEN=your_secure_token
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    $env:BIOPB_TENSOR_URL = "grpc://lab-data.example.org:8815"
+    $env:BIOPB_TENSOR_TOKEN = "your_secure_token"
+    ```
+
+!!! note "Environment variables last only for the session"
+    Both forms set the variable for the **current terminal** only. To make it stick, add the
+    `export` lines to your shell profile (`~/.bashrc`, `~/.zshrc`), or on Windows use
+    *Settings → System → About → Advanced system settings → Environment Variables*.
 
 When running a **tensor server** yourself, additional variables (`BIOPB_TENSOR_TOKEN`,
 `CONFIG_FILE`) apply on the server side — see [Data (tensor) servers](data-servers.md).
@@ -43,7 +57,9 @@ sidecar `BASE+4`, gRPC `BASE+5`).
 
 ## File locations
 
-Paths below are for Linux and macOS.
+biopb uses the **same layout on every platform** — it doesn't use Windows' `AppData`. The
+`~` below is your home directory, so on Windows `~/.config/biopb/biopb.json` means
+`C:\Users\<you>\.config\biopb\biopb.json`.
 
 ### Config files
 
