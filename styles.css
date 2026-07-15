@@ -88,6 +88,34 @@ a:hover { text-decoration: underline; }
   display: flex; align-items: center; gap: 12px;
   padding: 18px 16px; font-family: var(--mono); font-size: 0.95rem;
 }
+
+/* OS tabs (landing-page install window). The radios live as direct children of
+   .term so the sibling combinator can reach both the labels and the bodies; the
+   labels sit in the title bar. Scoped to .term__body--os so the plain .term__body
+   used elsewhere (install.html) is untouched. */
+.term__radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.term__tabs { display: flex; gap: 4px; margin-left: 8px; }
+.term__tab {
+  cursor: pointer; font-family: var(--mono); font-size: 0.78rem; line-height: 1;
+  color: #8a97a6; padding: 5px 10px; border-radius: 6px;
+  border: 1px solid transparent; transition: background 0.15s, color 0.15s;
+}
+.term__tab:hover { color: var(--term-ink); background: rgba(255, 255, 255, 0.06); }
+.term .term__body--os { display: none; }
+#os-unix:checked ~ .term__body--unix,
+#os-win:checked ~ .term__body--win { display: flex; }
+#os-unix:checked ~ .term__bar .term__tab[for="os-unix"],
+#os-win:checked ~ .term__bar .term__tab[for="os-win"] {
+  color: var(--term-ink); background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+/* Keyboard focus: the radio is visually hidden, so surface focus on its label. */
+.term__radio:focus-visible ~ .term__bar .term__tab[for="os-unix"],
+.term__radio:focus-visible ~ .term__bar .term__tab[for="os-win"] { outline: none; }
+#os-unix:focus-visible ~ .term__bar .term__tab[for="os-unix"],
+#os-win:focus-visible ~ .term__bar .term__tab[for="os-win"] {
+  outline: 2px solid #28c840; outline-offset: 2px;
+}
 .term__body code { color: var(--term-ink); overflow-x: auto; white-space: nowrap; flex: 1; }
 .term__prompt { color: #28c840; user-select: none; margin-right: 8px; }
 .term__copy {

@@ -54,19 +54,30 @@
           Watch a <a href="demo.html">demo</a>.
         </p>
 
-        <!-- terminal install window -->
+        <!-- terminal install window. The radios drive the OS tabs in pure CSS, so
+             they still switch with JS off; script.js only pre-selects the tab that
+             matches the visitor's platform. -->
         <div class="term" id="install" aria-label="Install command">
+          <input class="term__radio" type="radio" name="install-os" id="os-unix" checked>
+          <input class="term__radio" type="radio" name="install-os" id="os-win">
           <div class="term__bar">
             <span class="term__dot"></span><span class="term__dot"></span><span class="term__dot"></span>
-            <span class="term__title">install - Linux, Mac, Windows WSL</span>
+            <span class="term__tabs" role="group" aria-label="Choose your operating system">
+              <label class="term__tab" for="os-unix">Linux / macOS</label>
+              <label class="term__tab" for="os-win">Windows</label>
+            </span>
           </div>
-          <div class="term__body">
-            <code id="install-cmd"><span class="term__prompt">$</span> curl -fsSL https://biopb.org/install.sh | bash</code>
-            <button class="term__copy" id="copy-btn" type="button" data-cmd="curl -fsSL https://biopb.org/install.sh | bash">Copy</button>
+          <div class="term__body term__body--os term__body--unix">
+            <code><span class="term__prompt">$</span> curl -fsSL https://biopb.org/install.sh | bash</code>
+            <button class="term__copy" type="button" data-cmd="curl -fsSL https://biopb.org/install.sh | bash">Copy</button>
+          </div>
+          <div class="term__body term__body--os term__body--win">
+            <code><span class="term__prompt">&gt;</span> irm https://biopb.org/install.ps1 | iex</code>
+            <button class="term__copy" type="button" data-cmd="irm https://biopb.org/install.ps1 | iex">Copy</button>
           </div>
         </div>
 
-        <p class="hero__note">One command. Sets up the data server and wires the agent into Claude Code, OpenCode, or Cursor.</p>
+        <p class="hero__note">One command. Sets up the data server and wires the agent into Claude Code, Claude Desktop, OpenCode, or Cursor.</p>
       </div>
     </section>
 
@@ -181,10 +192,9 @@
   </footer>
 
   <script>
-    // Copy install command to clipboard.
+    // Copy install command to clipboard (every .term__copy, one per OS tab).
     (function () {
-      var btn = document.getElementById('copy-btn');
-      if (btn) {
+      document.querySelectorAll('.term__copy').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var cmd = btn.getAttribute('data-cmd');
           var done = function () {
@@ -202,7 +212,27 @@
             document.body.removeChild(ta); done();
           }
         });
-      }
+      });
+
+      // Pre-select the install tab matching the visitor's OS. Progressive
+      // enhancement only: the markup defaults to Linux/macOS and the tabs switch
+      // in pure CSS, so a wrong guess (or no JS) still leaves both reachable.
+      (function () {
+        var win = document.getElementById('os-win');
+        if (!win) return;
+        var isWindows = false;
+        try {
+          var uad = navigator.userAgentData;
+          if (uad && typeof uad.platform === 'string' && uad.platform) {
+            isWindows = /windows/i.test(uad.platform);
+          } else if (navigator.platform) {
+            isWindows = /^win/i.test(navigator.platform);
+          } else {
+            isWindows = /windows nt/i.test(navigator.userAgent || '');
+          }
+        } catch (e) { /* leave the default tab selected */ }
+        if (isWindows) win.checked = true;
+      })();
       // Mobile nav toggle.
       var toggle = document.querySelector('.nav__toggle');
       var links = document.querySelector('.nav__links');
