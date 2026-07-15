@@ -33,6 +33,11 @@ http://127.0.0.1:8813/
 
 Four panels, each covering one piece of the system.
 
+<figure markdown>
+  ![The biopb dashboard, showing the data plane, algorithm plane, agent clients, and agent sessions](assets/dashboard-overview.png)
+  <figcaption>The dashboard: the data plane and its controls, the algorithm servers your agent can reach, which agents biopb is registered with, and every live session with a link to watch it.</figcaption>
+</figure>
+
 ### Data plane
 
 The health of your [data server](data-servers.md): a status badge, its gRPC and web
@@ -45,7 +50,8 @@ Three buttons drive it:
 - **Restart** — bounce it.
 - **Stop** — shut it down. Clients lose the data server until something asks for it again.
 
-From here you can also jump to **View Data** (the image viewer) and the server **Admin** page.
+From here you can also jump to **View Data** (the image viewer), **Config** (the server's admin
+page), and **Logs**.
 
 ### Algorithm plane
 
@@ -58,8 +64,9 @@ a GPU box or a container — not from here.
 
 ### Agent clients
 
-Which agents biopb is registered with, and a button to register or unregister each one. This
-is the same job as `biopb agents register` on the command line.
+Which agents biopb is registered with, and a button to register or unregister each one. Agents
+you don't have are listed as *not installed* and left alone. This is the same job as
+`biopb agents register` on the command line.
 
 !!! tip "Restart the agent afterwards"
     A client only picks up the change when it restarts, so quit and reopen Claude Code,
@@ -67,10 +74,12 @@ is the same job as `biopb agents register` on the command line.
 
 ### Agent sessions
 
-Every live agent session, with its kernel state and a link to watch it. Each session is one
-agent's viewer and Python kernel — two agents means two rows here, not one shared session.
+Every live agent session, with the port it's on, when it started, its kernel state
+(`kernel: ready` once the viewer is up, `no kernel` for a session that hasn't started one),
+and an **observe →** link. Each session is one agent's viewer and Python kernel — two agents
+means two rows here, not one shared session.
 
-Click a session to open its **observe** view, which is the rest of this page.
+Click **observe →** to open that session's view, which is the rest of this page.
 
 ## Watching your agent
 
