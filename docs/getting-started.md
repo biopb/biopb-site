@@ -57,7 +57,8 @@ biopb dashboard
 
 That brings up [http://127.0.0.1:8813](http://127.0.0.1:8813), where you can watch what your
 agent is running, browse your data, and check on the data server. You don't need it to get
-work done — but it's the best window into what's happening underneath.
+work done — but it's the best window into what's happening underneath. See
+[Working with the dashboard](dashboard.md).
 
 ## 4. What LLM should you use?
 

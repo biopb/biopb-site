@@ -63,14 +63,15 @@ in a browser. It does two jobs and deliberately nothing else:
 - **It's the single web origin.** Everything you open lives behind one address,
   [http://127.0.0.1:8813](http://127.0.0.1:8813): the **dashboard** at `/`, the image
   **viewer** at `/viewer`, the server **admin** page at `/admin`, the data-plane **logs** at
-  `/logs`, and each agent session's [observe page](observe.md) at `/session/<id>/observe`.
+  `/logs`, and each agent session's [observe view](dashboard.md#watching-your-agent) at
+  `/session/<id>/observe`.
 
 It stays deliberately lean — no napari, no Qt, no dask. Everything heavy runs as a separate
 process it supervises. That's what lets it stay up and keep the rest honest.
 
 The dashboard is the one thing worth bookmarking. From it you can see which agent sessions are
-running and open their observe pages, check and restart the data plane, browse your data, and
-register biopb with your agent.
+running and open their observe views, check and restart the data plane, browse your data, and
+register biopb with your agent. See [Working with the dashboard](dashboard.md).
 
 ### The data (tensor) plane
 

@@ -91,7 +91,7 @@ the viewer. Install it into biopb's own environment instead:
     ```
 
 For example, swap `<napari-plugin>` for `napari-animation`. Then **restart the kernel** so
-napari re-scans its plugins — from your session's [observe page](observe.md) → *Restart
+napari re-scans its plugins — from your session's [observe view](dashboard.md#watching-your-agent) → *Restart
 kernel*, or just ask your agent. (If you're running `biopb mcp view`, stop it with `Ctrl-C`
 and start it again.) The new plugin appears under napari's **Plugins** menu.
 

@@ -46,6 +46,7 @@ full picture.
 - **[Getting started](getting-started.md)** — install and run your first analysis.
 - **[Working with your agent](working-with-agents.md)** — what to ask and how the workflow feels.
 - **[Working with napari](using-napari.md)** — What do you do in the napari window.
+- **[Working with the dashboard](dashboard.md)** — watch what your agent runs, and check on the system.
 - **[Troubleshooting](troubleshooting.md)** — fixes for the common snags.
 
 !!! note "These docs are for end users"
