@@ -2,7 +2,7 @@
 
 Tolerant on read (coercion, inference), strict on emit. All skill-file format
 variation is absorbed here so the published catalog is uniform. See
-docs/skill-interface.md (in the biopb repo) §1 and §5.
+biopb-mcp/docs/skill-interface.md (in the biopb repo) §1 and §5.
 
 Kept dependency-free on purpose: the docs toolchain should need only PyYAML to
 build the catalog, nothing heavier.

@@ -15,7 +15,7 @@ matching one before starting a task; this page is the **human-browsable** view o
 the same catalog. See the [skill interface design][design] for how the catalog is
 built and published.
 
-[design]: https://github.com/biopb/biopb/blob/main/docs/skill-interface.md
+[design]: https://github.com/biopb/biopb/blob/main/biopb-mcp/docs/skill-interface.md
 
 <div id="skills-app" data-catalog="/skills/catalog.json" markdown="0">
   <div class="skills-controls">

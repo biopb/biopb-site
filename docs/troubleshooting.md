@@ -14,24 +14,46 @@ The Data Browser resolves the server URL in this order:
 If you expected a remote server, make sure `BIOPB_TENSOR_URL` is set **before** you launch
 your agent or napari:
 
-```bash
-export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
-export BIOPB_TENSOR_TOKEN=your_secure_token
-```
+=== "Linux / macOS"
+
+    ```bash
+    export BIOPB_TENSOR_URL=grpc://lab-data.example.org:8815
+    export BIOPB_TENSOR_TOKEN=your_secure_token
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    $env:BIOPB_TENSOR_URL = "grpc://lab-data.example.org:8815"
+    $env:BIOPB_TENSOR_TOKEN = "your_secure_token"
+    ```
 
 ## A local server won't auto-start
 
-When the connection fails and the URL is local, the browser offers to start a local server
-for you — but only if the `biopb` command-line tool is on your `PATH`. If `biopb` **isn't**
-installed, that offer is skipped silently. Either:
+The data plane is started by the **control plane**, so if nothing comes up, the control plane
+is usually the thing that isn't running. Check it:
 
-- install the full [biopb](https://github.com/biopb/biopb) system, or
-- point `BIOPB_TENSOR_URL` at a server that's already running.
+```bash
+biopb control status
+```
+
+If it's down, start it with `biopb control start` (or `biopb dashboard`). If the `biopb`
+command isn't on your `PATH` at all, install the full
+[biopb](https://github.com/biopb/biopb) system, or point `BIOPB_TENSOR_URL` at a server
+that's already running.
+
+### "port is held by a process the control did not start"
+
+The control plane only manages a data plane it started itself, so it refuses to adopt one it
+finds already on the port. That usually means a leftover standalone server (a
+`biopb server start` daemon from an older install) is holding `8815`. Stop it, then start the
+control plane again and it will bring up a data plane it owns.
 
 ## A server starts but then fails
 
 When auto-start fails, the browser shows the underlying cause inline, and the **full server
-output is written to `~/.local/share/biopb/logs/`** — check there for the real error. Common
+output is written to `~/.local/share/biopb/log/`** — check there for the real error, or read
+it from the dashboard at [http://127.0.0.1:8813/logs](http://127.0.0.1:8813/logs). Common
 causes:
 
 ### Port already in use
@@ -42,9 +64,9 @@ port (`8815`). Either:
 - point at the existing server instead of starting a new one — set `BIOPB_TENSOR_URL` (with
   `BIOPB_TENSOR_TOKEN`), or
 - give your own server a free port. For the **containerized / HPC** server, set
-  `BIOPB_BASE_PORT=9000` (HTTP becomes `BASE+4`, gRPC `BASE+5`). For a **local
-  `biopb server start`**, put a distinct gRPC `port` in your JSON config and pass a free
-  `--web-port`, then point clients at it with `BIOPB_TENSOR_URL`.
+  `BIOPB_BASE_PORT=9000` (the web origin becomes `BASE+3`, the sidecar `BASE+4`, gRPC
+  `BASE+5`). Locally, put a distinct gRPC `port` in your JSON config and pass a free
+  `--web-port` to `biopb control start`, then point clients at it with `BIOPB_TENSOR_URL`.
 
 Each user gets a private on-disk cache (`%TEMP%\biopb-cache-<username>` on Windows,
 `<tmp>/biopb-cache-<uid>` elsewhere) with its own lock, so multiple users running their own
@@ -55,6 +77,21 @@ machines](data-servers.md#running-on-windows-and-shared-machines) for the full p
 
 Startup exceeded the timeout. Check the server log for the real error, then try connecting
 again once it's up.
+
+## biopb is slow to start on Windows
+
+Windows Defender rescans biopb's DLLs and compiled Python files on every launch, which
+usually dominates the first-start wait. biopb can add a Defender exclusion for its own
+install trees:
+
+```powershell
+biopb quick-start            # show the current status
+biopb quick-start --enable   # add the exclusions
+biopb quick-start --disable  # remove them again
+```
+
+It needs administrator rights, so expect one UAC prompt, and it's fully reversible. This is
+Windows-only — the command does nothing on Linux or macOS.
 
 ## An image looks scrambled or "ghosted" in the viewer
 

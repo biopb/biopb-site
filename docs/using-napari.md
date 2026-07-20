@@ -54,26 +54,23 @@ your own napari plugins.
 Normally your agent starts biopb and brings up napari for you. You can do the same by hand —
 useful when you just want to browse data, or when no agent is running.
 
-1. **Start the biopb daemon.** In a terminal, run:
+In a terminal, run:
 
-    ```bash
-    biopb-mcp --transport http
-    ```
+```bash
+biopb mcp view
+```
 
-    This starts biopb's local service and the [observe page](observe.md) on its port
-    (default `8765`), and keeps running in that terminal. It does *not* open napari yet — the
-    Python kernel that hosts the viewer doesn't start on its own. (If biopb is already running
-    from an earlier agent session, skip this step.)
-
-2. **Open the observe page** at
-   [`http://127.0.0.1:8765/observe`](http://127.0.0.1:8765/observe).
-
-3. **Start the kernel.** Click **Restart kernel** in the page header. That spins up the Python
-   kernel, which brings up the napari window with the Data Browser attached — the same viewer
-   an agent would drive, only there's no agent on the other end.
+That opens the napari window with the Data Browser attached — the same viewer an agent would
+drive, only there's no agent on the other end. It runs in the foreground and keeps going until
+you press `Ctrl-C` or close the window.
 
 From here napari is entirely yours: open sources from the Data Browser, edit layers, save
-results. If you later connect an agent to the same daemon, it shares this exact viewer.
+results.
+
+!!! note "This viewer is yours alone"
+    Each agent session gets its **own** viewer and kernel, so an agent you start later won't
+    attach to this window — it opens its own. `biopb mcp view` is for browsing by hand, not
+    for sharing a canvas with an agent.
 
 ### Adding your own napari plugins
 
@@ -93,9 +90,10 @@ the viewer. Install it into biopb's own environment instead:
     uv pip install --python "$(uv tool dir)\biopb\Scripts\python.exe" <napari-plugin>
     ```
 
-For example, swap `<napari-plugin>` for `napari-animation`. Then **restart the kernel** (observe
-page → *Restart kernel*, or just ask your agent) so napari re-scans its plugins — the new one
-appears under napari's **Plugins** menu.
+For example, swap `<napari-plugin>` for `napari-animation`. Then **restart the kernel** so
+napari re-scans its plugins — from your session's [observe view](dashboard.md#watching-your-agent) → *Restart
+kernel*, or just ask your agent. (If you're running `biopb mcp view`, stop it with `Ctrl-C`
+and start it again.) The new plugin appears under napari's **Plugins** menu.
 
 !!! note "Upgrades reset the environment"
     Upgrading or reinstalling biopb re-syncs this environment to biopb's own package list, so

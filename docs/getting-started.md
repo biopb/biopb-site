@@ -9,16 +9,32 @@ version.
 
 For the impatient, here's the command:
 
-```bash
-curl -fsSL https://biopb.org/install.sh | bash
-```
+=== "Linux / macOS"
+
+    ```bash
+    curl -fsSL https://biopb.org/install.sh | bash
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    irm https://biopb.org/install.ps1 | iex
+    ```
 
 For the rest, go to the [interactive install guide](https://biopb.org/install.html) and follow either route.
 
-!!! tip "What does `curl … | bash` do?"
+!!! tip "What does `curl … | bash` (or `irm … | iex`) do?"
     It downloads the setup script and runs it. You can read exactly what it does first — it's
     plain text at [biopb.org/install.sh](https://biopb.org/install.sh) (and
     [install.ps1](https://biopb.org/install.ps1) for Windows).
+
+The installer also registers biopb with any agent it finds — Claude Code, Claude Desktop,
+Cursor, or opencode — so there's nothing to wire up by hand. To check or change that later:
+
+```bash
+biopb agents list           # which agents are registered?
+biopb agents register --all # register biopb with every agent found
+```
 
 ## 2. Open your agent and ask
 
@@ -31,7 +47,20 @@ work, and shows you the result. You watch it happen and can adjust the layers by
 
 See [Working with your agent](working-with-agents.md) for more examples of what to ask.
 
-## 3. What LLM should you use?
+## 3. Open the dashboard (optional)
+
+Everything biopb serves in a browser lives at one address. Run:
+
+```bash
+biopb dashboard
+```
+
+That brings up [http://127.0.0.1:8813](http://127.0.0.1:8813), where you can watch what your
+agent is running, browse your data, and check on the data server. You don't need it to get
+work done — but it's the best window into what's happening underneath. See
+[Working with the dashboard](dashboard.md).
+
+## 4. What LLM should you use?
 
 If the agent workflow is new to you, you should first check what LLM you are using.
 In opencode (and many other agent tools), you type:

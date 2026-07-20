@@ -12,17 +12,21 @@ biopb is built around a simple idea: Give the AI agent resources and tools, then
     because the real data in research is highly variable and continuously evolving.
     The biopb project is an experiment to see whether using AI to generate **custom** programs on-the-fly works better on scientific data.
 
-## The four pieces
+## The pieces
 
 ```
         You  ⇄  AI agent
-                  │
-                  ▼
-          napari viewer  ── you watch & edit ──►  You
-          (Data Browser + MCP bridge)
-                  │
-        ┌─────────┴──────────┐
-        ▼                    ▼
+         │        │
+         │        ▼
+         │  napari viewer  ── you watch & edit ──►  You
+         │  (Data Browser + MCP bridge)
+         │        │
+         ▼        ▼
+      Control plane  ──── serves ────►  Dashboard, viewer, admin
+      (the durable root)                http://127.0.0.1:8813
+         │        │
+         │ owns   │ routes to
+         ▼        ▼
    Data plane           Compute plane
    (tensor server)      (algorithm servers)
    moves image data     run models (Cellpose, …)
@@ -30,7 +34,7 @@ biopb is built around a simple idea: Give the AI agent resources and tools, then
 
 ### Your AI agent
 
-The agent (Claude Code, OpenCode, Cursor, or Hermes) is what you talk to. Instead of clicking
+The agent (Claude Code, Claude Desktop, OpenCode, or Cursor) is what you talk to. Instead of clicking
 through menus, you describe what you want and the agent writes and runs the analysis code. It
 can pull data, run trained models, and present results — all by operating the live napari
 session for you.
@@ -48,10 +52,31 @@ by hand and the agent can read it back — it's a shared canvas, not a headless 
 
 See [working with napari](using-napari.md) for details.
 
+### The control plane
+
+The **control plane** is the durable root of a biopb install, and the piece you actually visit
+in a browser. It does two jobs and deliberately nothing else:
+
+- **It owns the data plane.** It starts the tensor server, watches it, and restarts it if it
+  crashes. Nothing else is allowed to start one — that's why you no longer start a server by
+  hand before using biopb.
+- **It's the single web origin.** Everything you open lives behind one address,
+  [http://127.0.0.1:8813](http://127.0.0.1:8813): the **dashboard** at `/`, the image
+  **viewer** at `/viewer`, the server **admin** page at `/admin`, the data-plane **logs** at
+  `/logs`, and each agent session's [observe view](dashboard.md#watching-your-agent) at
+  `/session/<id>/observe`.
+
+It stays deliberately lean — no napari, no Qt, no dask. Everything heavy runs as a separate
+process it supervises. That's what lets it stay up and keep the rest honest.
+
+The dashboard is the one thing worth bookmarking. From it you can see which agent sessions are
+running and open their observe views, check and restart the data plane, browse your data, and
+register biopb with your agent. See [Working with the dashboard](dashboard.md).
+
 ### The data (tensor) plane
 
 The **tensor server** owns "where the pixels live and how they move." It reads whatever
-microscopy format your lab has — OME-Zarr, OME-TIFF, HDF5, CZI, LIF, ND2, TIFF, and more —
+microscopy format your lab has — OME-Zarr, OME-TIFF, CZI, LIF, ND2, TIFF, and more —
 and serves it as uniform, **lazy, chunked** arrays over [Apache Arrow
 Flight](https://arrow.apache.org/docs/format/Flight.html). "Lazy" means pixels are fetched
 only as needed, so your agent can work with images far larger than your computer's RAM.
