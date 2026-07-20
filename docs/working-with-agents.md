@@ -20,7 +20,7 @@ would.
 ## First prompt
 
 ```
-"Connect to biopb and report status"
+"Start biopb and report status"
 ```
 Why? If you are just setting up, this checks:
 
